@@ -2,7 +2,6 @@ var get_start = (function () {
     var allComments = document.querySelector("#allComments");
     var path = window.location.pathname;
     var file = path.split("/").pop();
-    var chaptNum = file.split(".").shift();
 
     // Initialize Firebase
     var firebaseConfig = {
@@ -32,7 +31,7 @@ var get_start = (function () {
                         }
                     }
                     if (check == true) {
-                        db.ref(`/comments/${chaptNum}`).push({
+                        db.ref(`/comments`).push({
                             name : name,
                             content: content,
                             status: "",
@@ -48,7 +47,7 @@ var get_start = (function () {
 
     // get and display data
     function _getData() {
-        db.ref(`/comments/${chaptNum}`).on('value', function (snapshot) {
+        db.ref(`/comments`).on('value', function (snapshot) {
             var data = snapshot.val();
             if (data) {
                 var names = [];
@@ -65,7 +64,7 @@ var get_start = (function () {
                 _createPageStr(len, names, contents, times);
             }
             else {
-                db.ref(`/cmtCnt/${chaptNum}`).set(0);
+                db.ref(`/cmtCnt`).set(0);
                 cmtCnt.innerHTML = 0;
             }
         });
@@ -96,7 +95,7 @@ var get_start = (function () {
         }
         str += `</div>`
         allComments.innerHTML = str;
-        db.ref(`/cmtCnt/${chaptNum}`).set(i);
+        db.ref(`/cmtCnt`).set(i);
         cmtCnt.innerHTML = i;
     }
 
