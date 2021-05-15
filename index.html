@@ -37,9 +37,6 @@
                         <li class="nav-item">
                             <a class="nav-link btn-outline-primary rounded-pill px-3" href="story.html">日誌</a>
                         </li>
-                        <li class="nav-item">
-                            <a class="nav-link btn-outline-primary rounded-pill px-3" href="comments.html">留言區</a>
-                        </li>
                     </ul>
                 </div>
             </div>
@@ -48,26 +45,67 @@
     <!-- Close Header -->
 
 
-    <!-- Start Intro -->
-    <div class="container-lg py-5">
-        <div>
-            <div class="content">
-                <p></p>
-                “I still don't know what it really means to grow up.
-                However, if I happen to meet you, one day in the future, by then,
-                I want to become someone you can be proud to know.”
-            </div>
-            <div style="font-size: 14px">
-                <p></p>
-                - Makoto Shinkai, 5 Centimeters per Second
+    <!-- Start Comment-->
+    <div class="container py-5 text-center">
+        <span class="badge bg-primary rounded-pill"><div id="cmtCnt">0</div></span><p></p>
+        <div id="allComments"></div>
+    </div>
+    
+    <div class="container text-center">
+        <!-- Button trigger modal -->
+        <button type="button" class="btn-lg btn-dark" data-bs-toggle="modal" data-bs-target="#staticBackdrop">
+            我要留言
+        </button>
+    
+        <!-- Modal -->
+        <div class="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="staticBackdropLabel">我的留言</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        <form id="myForm">
+                            <div class="mb-3">
+                            <input type="text" class="form-control" id="add-name" placeholder="名字" maxlength="15">
+                            </div>
+                            <div class="mb-3">
+                            <textarea class="form-control" id="add-content" placeholder="留言" maxlength="200"></textarea>
+                            </div>
+                        </form>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-dark" data-bs-dismiss="modal">取消</button>
+                        <input type='button' value='確定' class="btn btn-dark" data-bs-dismiss="modal">
+                    </div>
+                </div>
             </div>
         </div>
     </div>
-    <!-- Close Intro -->
 
+    <div class="container py-4 text-center">
+        <button onclick="topFunction()" id="myBtn" class="btn btn-dark">Top</button>
+    </div>
+    <!-- Close Comment -->
 
+          
     <!-- Bootstrap -->
     <script src="assets/js/bootstrap.bundle.min.js"></script>
+    <!-- FireBase -->
+    <script src="https://code.jquery.com/jquery-3.3.1.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8="
+    crossorigin="anonymous"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.5.0/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.5.0/firebase-auth.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.5.0/firebase-database.js"></script>
+
+    <script src="assets/js/scroll.js"></script>
+    <script src="assets/js/db.js"></script>
+    <script>
+        $(document).ready(function () {
+            get_start.init();
+        });
+    </script>
 
 </body>
 
