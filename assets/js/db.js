@@ -3,7 +3,6 @@ var get_start = (function () {
     var path = window.location.pathname;
     var file = path.split("/").pop();
     var chaptNum = file.split(".").shift();
-    console.log(chaptNum);
 
     // Initialize Firebase
     var firebaseConfig = {
@@ -78,7 +77,7 @@ var get_start = (function () {
         var i = 0;
         var style = "";
         for (i = 0; i < len; i++) {
-            if (`${names[i]}` == `ken` || `${names[i]}` == `sandy` || `${names[i]}` == `sammy`) {
+            if (`${names[i]}` == `Ken` || `${names[i]}` == `Sandy` || `${names[i]}` == `Sammy`) {
                 style = `badge bg-dark text-wrap`;
             }
             str += `
