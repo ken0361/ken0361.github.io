@@ -3,7 +3,7 @@ name: Deploy to GitHub Pages
 on:
   push:
     branches:
-      - main  # 當 main 分支有變更時觸發
+      - main
 
 jobs:
   deploy:
@@ -13,13 +13,13 @@ jobs:
     - name: Checkout code
       uses: actions/checkout@v3
 
+    - name: Replace API key in JavaScript files
+      run: |
+        sed -i 's/APIKEY_PLACEHOLDER/${{ secrets.APIKEY }}/g' assets/js/board.js
+        sed -i 's/APIKEY_PLACEHOLDER/${{ secrets.APIKEY }}/g' assets/js/task.js
+
     - name: Deploy to GitHub Pages
       uses: peaceiris/actions-gh-pages@v3
       with:
         github_token: ${{ secrets.GITHUB_TOKEN }}
-        publish_dir: ./  # 靜態網站的根目錄，根據實際目錄調整
-      env:
-        APIKEY: ${{ secrets.APIKEY }}
-        MESSAGINGSENDERID: ${{ secrets.MESSAGINGSENDERID }}
-        MEASUREMENTID: ${{ secrets.MEASUREMENTID }}
-        APPID: ${{ secrets.APPID }}
+        publish_dir: ./  # 根據你的專案配置調整
