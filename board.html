@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <title>Task Management & Bulletin Board</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- Load Require CSS -->
+    <link href="assets/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Font CSS -->
+    <link href="assets/css/boxicon.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@300;400;600&display=swap" rel="stylesheet">
+    <!-- Load Tempalte CSS -->
+    <link rel="stylesheet" href="assets/css/templatemo.css">
+</head>
+
+<body>
+    <!-- Header -->
+    <nav id="main_nav" class="navbar navbar-expand-lg navbar-light bg-white shadow">
+        <div class="container d-flex justify-content-between align-items-center">
+            <div class="navbar-brand h1">
+                <a href="index.html" style="text-decoration: none;">
+                    <span class="text-dark h3">Task Management & Bulletin Board</span>
+                </a>
+                <img src="assets/img/bala.jpg" class="rounded-circle mr-1" alt="Chris Wood" width="40" height="40">
+                <img src="assets/img/meow.jpg" class="rounded-circle mr-1" alt="Chris Wood" width="40" height="40">
+            </div>
+            <button class="navbar-toggler border-0" type="button" data-bs-toggle="collapse" data-bs-target="#navbar-toggler-success" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+
+            <div class="collapse navbar-collapse" id="navbar-toggler-success">
+                <div class="align-self-center flex-fill d-lg-flex justify-content-lg-between mb-2">
+                    <div class="flex-fill mx-xl-5 mb-2">
+                        <ul class="nav navbar-nav d-flex justify-content-between mx-xl-5 text-center text-dark">
+                            <li class="nav-item">
+                                <a class="nav-link btn-outline-primary rounded-pill px-3" href="index.html">Task Management</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link btn-outline-primary rounded-pill px-3" href="board.html">Bulletin Board</a>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </nav>
+    <!-- Close Header -->
+
+    <!-- Button -->
+    <div class="container text-center py-5">
+        <!-- Button trigger modal -->
+        <button type="button" class="btn-lg btn-dark" data-bs-toggle="modal" data-bs-target="#staticBackdrop">
+            Leave a message
+        </button>
+    
+        <!-- Modal -->
+        <div class="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="staticBackdropLabel">Leave a message</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        <form id="myForm">
+                            <div class="mb-3">
+                            <input type="text" class="form-control" id="add-name" placeholder="I am" maxlength="15">
+                            </div>
+                            <div class="mb-3">
+                            <textarea class="form-control" id="add-content" placeholder="Message" maxlength="200"></textarea>
+                            </div>
+                        </form>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-dark" data-bs-dismiss="modal">Cancel</button>
+                        <input type='button' value='Enter' class="btn btn-dark" data-bs-dismiss="modal">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Start Comment-->
+    <div class="container py-1 text-center">
+        <span class="badge bg-primary rounded-pill"><div id="cmtCnt">0</div></span><p></p>
+        <div id="allComments"></div>
+    </div>
+    
+    <div class="container py-4 text-center">
+        <button onclick="topFunction()" id="myBtn" class="btn btn-dark">Top</button>
+    </div>
+    <!-- Close Comment -->
+
+          
+    <!-- Bootstrap -->
+    <script src="assets/js/bootstrap.bundle.min.js"></script>
+    <!-- FireBase -->
+    <script src="https://code.jquery.com/jquery-3.3.1.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8="
+    crossorigin="anonymous"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.5.0/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.5.0/firebase-auth.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.5.0/firebase-database.js"></script>
+    <!-- Chart.js -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.6.0/Chart.js"></script>
+
+    <script src="assets/js/scroll.js"></script>
+    <script src="assets/js/board.js"></script>
+    <script>
+        $(document).ready(function () {
+            get_start.init();
+        });
+    </script>
+
+</body>
+
+</html>
