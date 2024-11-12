@@ -1,5 +1,5 @@
 var config = {
-    apiKey: "AIzaSyAU96hFLomAtATR2diOSq4-_rJBWr_g5zE",
+    apiKey: process.env.APIKEY,
     authDomain: "ken-github.firebaseapp.com",
     databaseURL: "https://ken-github-default-rtdb.asia-southeast1.firebasedatabase.app/",
     projectId: "ken-github",
