@@ -4,9 +4,9 @@ var config = {
     databaseURL: "https://ken-github-default-rtdb.asia-southeast1.firebasedatabase.app/",
     projectId: "ken-github",
     storageBucket: "ken-github.firebasestorage.app",
-    messagingSenderId: "501229830621",
-    appId: "1:501229830621:web:abd5664f0138164f6d7634",
-    measurementId: "G-V24YXHSMDD"
+    messagingSenderId: process.env.MESSAGINGSENDERID,
+    appId: process.env.APPID,
+    measurementId: process.env.MEASUREMENTID
 };
 firebase.initializeApp(config);
 var db = firebase.database();
