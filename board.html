@@ -2,11 +2,13 @@
 <html lang="en">
 
 <head>
-    <title>Task Management & Bulletin Board</title>
+    <title>酷周有限公司</title>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <!-- Load Require CSS -->
     <link href="assets/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
         /* Scrollable List Containers */
         #userList, #lotteryList {
@@ -143,14 +145,25 @@
     <nav id="main_nav" class="navbar navbar-expand-lg navbar-light bg-white shadow">
         <div class="container d-flex justify-content-between align-items-center">
             <div class="navbar-brand h1">
-                <img src="assets/img/meow.jpg" class="rounded-circle mr-1" alt="Logo" width="40" height="40">
+                <img id="logoImg" src="assets/img/baby.jpg" class="rounded-circle mr-1" alt="Logo" width="40" height="40" style="cursor: pointer;">
             </div>
             <button id="themeToggle" class="btn btn-outline-secondary" title="切換主題">
-                <span id="themeIcon">🌙</span>
+                <i id="themeIcon" class="fas fa-moon"></i>
             </button>
         </div>
     </nav>
     <!-- Close Header -->
+
+    <!-- Image Modal -->
+    <div class="modal fade" id="imageModal" tabindex="-1" aria-labelledby="imageModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-lg modal-dialog-centered">
+            <div class="modal-content" style="border: none; background-color: transparent; box-shadow: none;">
+                <div class="modal-body text-center p-0">
+                    <img id="enlargedImage" src="" alt="Enlarged" style="max-width: 100%; height: auto;">
+                </div>
+            </div>
+        </div>
+    </div>
 
     <!-- Main Container -->
     <div class="container py-4">
@@ -159,7 +172,7 @@
             <div class="col-lg-6 col-md-12 mb-4">
                 <div class="card border-dark">
                     <div class="card-header bg-dark text-white">
-                        <h5 class="mb-0">參與者管理</h5>
+                        <h5 class="mb-0">股東管理</h5>
                     </div>
                     <div class="card-body">
                         <!-- Add User Form -->
@@ -170,12 +183,12 @@
                             <div class="mb-3">
                                 <input type="number" class="form-control" id="add-user-amount" placeholder="投資金額" min="0" required>
                             </div>
-                            <button type="button" class="btn btn-dark w-100" id="addUserBtn">新增參與者</button>
+                            <button type="button" class="btn btn-dark w-100" id="addUserBtn">新增股東</button>
                         </form>
 
                         <!-- User List -->
                         <div id="userListContainer" class="mt-4">
-                            <h6 class="fw-bold">參與者列表</h6>
+                            <h6 class="fw-bold">股東列表</h6>
                             <div id="userList"></div>
                         </div>
                     </div>
@@ -267,6 +280,7 @@
         $(document).ready(function () {
             lotteryApp.init();
             _initThemeToggle();
+            _initImageModal();
         });
 
         // Dark/Light Mode Toggle
@@ -281,10 +295,10 @@
             // 設置初始主題
             if (savedTheme === 'dark') {
                 htmlElement.setAttribute('data-bs-theme', 'dark');
-                themeIcon.textContent = '☀️';
+                themeIcon.className = 'fas fa-sun';
             } else {
                 htmlElement.setAttribute('data-bs-theme', 'light');
-                themeIcon.textContent = '🌙';
+                themeIcon.className = 'fas fa-moon';
             }
             
             // 切換主題
@@ -294,7 +308,19 @@
                 
                 htmlElement.setAttribute('data-bs-theme', newTheme);
                 localStorage.setItem('theme', newTheme);
-                themeIcon.textContent = newTheme === 'dark' ? '☀️' : '🌙';
+                themeIcon.className = newTheme === 'dark' ? 'fas fa-sun' : 'fas fa-moon';
+            });
+        }
+
+        // Image Enlargement
+        function _initImageModal() {
+            const logoImg = document.getElementById('logoImg');
+            const imageModal = new bootstrap.Modal(document.getElementById('imageModal'));
+            const enlargedImage = document.getElementById('enlargedImage');
+            
+            logoImg.addEventListener('click', function() {
+                enlargedImage.src = this.src;
+                imageModal.show();
             });
         }
     </script>
