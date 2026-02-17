@@ -7,6 +7,135 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <!-- Load Require CSS -->
     <link href="assets/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        /* Scrollable List Containers */
+        #userList, #lotteryList {
+            max-height: 300px;
+            overflow-y: auto;
+            overflow-x: hidden;
+            padding-right: 5px;
+        }
+
+        #userList::-webkit-scrollbar, #lotteryList::-webkit-scrollbar {
+            width: 6px;
+        }
+
+        #userList::-webkit-scrollbar-track, #lotteryList::-webkit-scrollbar-track {
+            background: #f1f1f1;
+            border-radius: 3px;
+        }
+
+        #userList::-webkit-scrollbar-thumb, #lotteryList::-webkit-scrollbar-thumb {
+            background: #888;
+            border-radius: 3px;
+        }
+
+        #userList::-webkit-scrollbar-thumb:hover, #lotteryList::-webkit-scrollbar-thumb:hover {
+            background: #555;
+        }
+
+        /* Dark Mode Scrollbar */
+        [data-bs-theme="dark"] #userList::-webkit-scrollbar-track,
+        [data-bs-theme="dark"] #lotteryList::-webkit-scrollbar-track {
+            background: #3a3f47;
+        }
+
+        [data-bs-theme="dark"] #userList::-webkit-scrollbar-thumb,
+        [data-bs-theme="dark"] #lotteryList::-webkit-scrollbar-thumb {
+            background: #555;
+        }
+
+        [data-bs-theme="dark"] #userList::-webkit-scrollbar-thumb:hover,
+        [data-bs-theme="dark"] #lotteryList::-webkit-scrollbar-thumb:hover {
+            background: #777;
+        }
+
+        /* Dark Mode Support */
+        [data-bs-theme="dark"] {
+            color-scheme: dark;
+            background-color: #212529;
+            color: #fff;
+        }
+
+        [data-bs-theme="dark"] body {
+            background-color: #212529;
+            color: #fff;
+        }
+
+        [data-bs-theme="dark"] .card {
+            background-color: #2d3139;
+            border-color: #495057;
+            color: #fff;
+        }
+
+        [data-bs-theme="dark"] .card-header {
+            background-color: #1f2937 !important;
+            color: #fff;
+        }
+
+        [data-bs-theme="dark"] .card-body {
+            color: #fff;
+        }
+
+        [data-bs-theme="dark"] .form-control {
+            background-color: #3a3f47;
+            color: #fff;
+            border-color: #495057;
+        }
+
+        [data-bs-theme="dark"] .form-control::placeholder {
+            color: #adb5bd;
+        }
+
+        [data-bs-theme="dark"] .form-control:focus {
+            background-color: #3a3f47;
+            color: #fff;
+            border-color: #80bdff;
+        }
+
+        [data-bs-theme="dark"] .bg-light {
+            background-color: #3a3f47 !important;
+            color: #fff;
+        }
+
+        [data-bs-theme="dark"] .text-muted {
+            color: #adb5bd !important;
+        }
+
+        [data-bs-theme="dark"] .btn-outline-danger {
+            color: #ff6b6b;
+            border-color: #ff6b6b;
+        }
+
+        [data-bs-theme="dark"] .btn-outline-danger:hover {
+            background-color: #ff6b6b;
+            color: #fff;
+        }
+
+        [data-bs-theme="dark"] .table {
+            color: #fff;
+            border-color: #495057;
+        }
+
+        [data-bs-theme="dark"] .table tbody tr:hover {
+            background-color: #3a3f47;
+        }
+
+        [data-bs-theme="dark"] .navbar {
+            background-color: #2d3139 !important;
+            border-bottom: 1px solid #495057;
+        }
+
+        [data-bs-theme="dark"] .btn-outline-secondary {
+            color: #adb5bd;
+            border-color: #495057;
+        }
+
+        [data-bs-theme="dark"] .btn-outline-secondary:hover {
+            background-color: #495057;
+            color: #fff;
+        }
+    </style>
 </head>
 
 <body>
@@ -14,77 +143,113 @@
     <nav id="main_nav" class="navbar navbar-expand-lg navbar-light bg-white shadow">
         <div class="container d-flex justify-content-between align-items-center">
             <div class="navbar-brand h1">
-                <a style="text-decoration: none;">
-                    <span class="text-dark h3">Bulletin Board</span>
-                </a>
-                <img src="assets/img/meow.jpg" class="rounded-circle mr-1" alt="Chris Wood" width="40" height="40">
+                <img src="assets/img/meow.jpg" class="rounded-circle mr-1" alt="Logo" width="40" height="40">
             </div>
-            <button class="navbar-toggler border-0" type="button" data-bs-toggle="collapse" data-bs-target="#navbar-toggler-success" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-                <span class="navbar-toggler-icon"></span>
+            <button id="themeToggle" class="btn btn-outline-secondary" title="切換主題">
+                <span id="themeIcon">🌙</span>
             </button>
-
-            <div class="collapse navbar-collapse" id="navbar-toggler-success">
-                <div class="align-self-center flex-fill d-lg-flex justify-content-lg-between mb-2">
-                    <div class="flex-fill mx-xl-5 mb-2">
-                        <ul class="nav navbar-nav d-flex justify-content-between mx-xl-5 text-center text-dark">
-                            <li class="nav-item">
-                                <a class="nav-link btn-outline-primary rounded-pill px-3" href="index.html">Task Management</a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link btn-outline-primary rounded-pill px-3" href="board.html">Bulletin Board</a>
-                            </li>
-                        </ul>
-                    </div>
-                </div>
-            </div>
         </div>
     </nav>
     <!-- Close Header -->
 
-    <!-- Button -->
-    <div class="container text-center py-5">
-        <!-- Button trigger modal -->
-        <button type="button" class="btn-lg btn-dark" data-bs-toggle="modal" data-bs-target="#staticBackdrop">
-            Leave a message
-        </button>
-    
-        <!-- Modal -->
-        <div class="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
-            <div class="modal-dialog modal-dialog-centered">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <h5 class="modal-title" id="staticBackdropLabel">Leave a message</h5>
-                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+    <!-- Main Container -->
+    <div class="container py-4">
+        <div class="row">
+            <!-- Left Side: User Management -->
+            <div class="col-lg-6 col-md-12 mb-4">
+                <div class="card border-dark">
+                    <div class="card-header bg-dark text-white">
+                        <h5 class="mb-0">參與者管理</h5>
                     </div>
-                    <div class="modal-body">
-                        <form id="myForm">
+                    <div class="card-body">
+                        <!-- Add User Form -->
+                        <form id="userForm" class="mb-3">
                             <div class="mb-3">
-                            <input type="text" class="form-control" id="add-name" placeholder="I am" maxlength="15">
+                                <input type="text" class="form-control" id="add-user-name" placeholder="姓名" maxlength="20" required>
                             </div>
                             <div class="mb-3">
-                            <textarea class="form-control" id="add-content" placeholder="Message" maxlength="200"></textarea>
+                                <input type="number" class="form-control" id="add-user-amount" placeholder="投資金額" min="0" required>
                             </div>
+                            <button type="button" class="btn btn-dark w-100" id="addUserBtn">新增參與者</button>
                         </form>
+
+                        <!-- User List -->
+                        <div id="userListContainer" class="mt-4">
+                            <h6 class="fw-bold">參與者列表</h6>
+                            <div id="userList"></div>
+                        </div>
                     </div>
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-dark" data-bs-dismiss="modal">Cancel</button>
-                        <input type='button' value='Enter' class="btn btn-dark" data-bs-dismiss="modal">
+                </div>
+            </div>
+
+            <!-- Right Side: Lottery Info -->
+            <div class="col-lg-6 col-md-12 mb-4">
+                <div class="card border-dark">
+                    <div class="card-header bg-dark text-white">
+                        <h5 class="mb-0">刮刮樂結果</h5>
+                    </div>
+                    <div class="card-body">
+                        <!-- Lottery Form -->
+                        <form id="lotteryForm" class="mb-3">
+                            <div class="mb-3">
+                                <input type="number" class="form-control" id="ticket-cost" placeholder="每張成本" min="0" required>
+                            </div>
+                            <div class="mb-3">
+                                <input type="number" class="form-control" id="ticket-profit" placeholder="每張收益" min="0" required>
+                            </div>
+                            <button type="button" class="btn btn-dark w-100" id="submitLotteryBtn">新增刮刮樂</button>
+                        </form>
+
+                        <!-- Lottery List -->
+                        <div id="lotteryListContainer" class="mt-4">
+                            <h6 class="fw-bold">刮刮樂清單</h6>
+                            <div id="lotteryList"></div>
+                        </div>
+
+                        <!-- Summary Info -->
+                        <div class="mt-4 p-3 bg-light rounded">
+                            <div class="row">
+                                <div class="col-6">
+                                    <p class="text-muted mb-1">總投資金額</p>
+                                    <h5 class="fw-bold" id="totalAmount">0</h5>
+                                </div>
+                                <div class="col-6">
+                                    <p class="text-muted mb-1">累計刮刮樂</p>
+                                    <h5 class="fw-bold" id="totalCost">0</h5>
+                                </div>
+                                <div class="col-6">
+                                    <p class="text-muted mb-1">總共刮出</p>
+                                    <h5 class="fw-bold text-success" id="totalProfit">0</h5>
+                                </div>
+                                <div class="col-6">
+                                    <p class="text-muted mb-1">淨收益</p>
+                                    <h5 class="fw-bold" id="netProfit">0</h5>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Distribution Results -->
+        <div class="row mt-4">
+            <div class="col-12">
+                <div class="card border-dark">
+                    <div class="card-header bg-dark text-white">
+                        <h5 class="mb-0">收益分配</h5>
+                    </div>
+                    <div class="card-body">
+                        <div id="distributionResults"></div>
                     </div>
                 </div>
             </div>
         </div>
     </div>
-
-    <!-- Start Comment-->
-    <div class="container py-1 text-center">
-        <span class="badge bg-primary rounded-pill"><div id="cmtCnt">0</div></span><p></p>
-        <div id="allComments"></div>
-    </div>
     
     <div class="container py-4 text-center">
-        <button onclick="topFunction()" id="myBtn" class="btn btn-dark">Top</button>
+        <button onclick="topFunction()" id="myBtn" class="btn btn-dark">回到頂部</button>
     </div>
-    <!-- Close Comment -->
 
           
     <!-- Bootstrap -->
@@ -100,8 +265,38 @@
     <script src="assets/js/board.js"></script>
     <script>
         $(document).ready(function () {
-            get_start.init();
+            lotteryApp.init();
+            _initThemeToggle();
         });
+
+        // Dark/Light Mode Toggle
+        function _initThemeToggle() {
+            const themeToggle = document.getElementById('themeToggle');
+            const themeIcon = document.getElementById('themeIcon');
+            const htmlElement = document.documentElement;
+            
+            // 從 localStorage 讀取保存的主題設定
+            const savedTheme = localStorage.getItem('theme') || 'light';
+            
+            // 設置初始主題
+            if (savedTheme === 'dark') {
+                htmlElement.setAttribute('data-bs-theme', 'dark');
+                themeIcon.textContent = '☀️';
+            } else {
+                htmlElement.setAttribute('data-bs-theme', 'light');
+                themeIcon.textContent = '🌙';
+            }
+            
+            // 切換主題
+            themeToggle.addEventListener('click', function() {
+                const currentTheme = htmlElement.getAttribute('data-bs-theme');
+                const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
+                
+                htmlElement.setAttribute('data-bs-theme', newTheme);
+                localStorage.setItem('theme', newTheme);
+                themeIcon.textContent = newTheme === 'dark' ? '☀️' : '🌙';
+            });
+        }
     </script>
 
 </body>
