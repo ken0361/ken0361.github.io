@@ -56,6 +56,11 @@ var lotteryApp = (function() {
                 });
                 $('#lotteryForm')[0].reset();
                 _loadData();
+                
+                // 如果收益 > 0，顯示慶祝gif
+                if (profit > 0) {
+                    _showCongratsGif();
+                }
             } else {
                 alert('請輸入有效的成本和收益');
             }
@@ -63,6 +68,12 @@ var lotteryApp = (function() {
     }
 
     function _loadData() {
+        // 顯示 spinner
+        var userListSpinner = document.getElementById('userListSpinner');
+        var lotteryListSpinner = document.getElementById('lotteryListSpinner');
+        if (userListSpinner) userListSpinner.style.display = 'flex';
+        if (lotteryListSpinner) lotteryListSpinner.style.display = 'flex';
+        
         db.ref(`${db_ref}/users`).once('value').then((snapshot) => {
             users = snapshot.val() || {};
             _loadLotteryData();
@@ -78,6 +89,10 @@ var lotteryApp = (function() {
     }
 
     function _updateDisplay() {
+        // 隱藏 spinner
+        document.getElementById('userListSpinner').style.display = 'none';
+        document.getElementById('lotteryListSpinner').style.display = 'none';
+        
         // 更新參與者列表
         var userListHtml = '';
         var totalAmount = 0;
@@ -216,6 +231,11 @@ var lotteryApp = (function() {
 
     function _generateId() {
         return 'item_' + Date.now() + '_' + Math.random().toString(36).substr(2, 9);
+    }
+
+    function _showCongratsGif() {
+        var congratsModal = new bootstrap.Modal(document.getElementById('congratsModal'));
+        congratsModal.show();
     }
 
     function deleteUser(userId) {
