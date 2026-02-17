@@ -153,6 +153,59 @@
         [data-bs-theme="dark"] .spinner-border {
             color: #adb5bd;
         }
+
+        /* Tab Navigation Style */
+        .tab-navigation {
+            border-bottom: 2px solid #dee2e6;
+            margin-bottom: 2rem;
+        }
+
+        .tab-button {
+            padding: 0.75rem 1.5rem;
+            border: none;
+            background: none;
+            font-size: 1rem;
+            font-weight: 500;
+            color: #6c757d;
+            cursor: pointer;
+            border-bottom: 3px solid transparent;
+            transition: all 0.3s ease;
+            margin-right: 1rem;
+        }
+
+        .tab-button:hover {
+            color: #495057;
+        }
+
+        .tab-button.active {
+            color: #212529;
+            border-bottom-color: #212529;
+        }
+
+        [data-bs-theme="dark"] .tab-navigation {
+            border-bottom-color: #495057;
+        }
+
+        [data-bs-theme="dark"] .tab-button {
+            color: #adb5bd;
+        }
+
+        [data-bs-theme="dark"] .tab-button:hover {
+            color: #c6c9cf;
+        }
+
+        [data-bs-theme="dark"] .tab-button.active {
+            color: #fff;
+            border-bottom-color: #fff;
+        }
+
+        .tab-content {
+            display: none;
+        }
+
+        .tab-content.active {
+            display: block;
+        }
     </style>
 </head>
 
@@ -192,89 +245,85 @@
         </div>
     </div>
 
+    <!-- Sad Modal -->
+    <div class="modal fade" id="sadModal" tabindex="-1" aria-labelledby="sadModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-lg modal-dialog-centered">
+            <div class="modal-content" style="border: none; background-color: transparent; box-shadow: none;">
+                <div class="modal-body text-center p-0">
+                    <img id="sadImage" src="assets/img/sad.gif" alt="Sad" style="max-width: 100%; height: auto;">
+                </div>
+            </div>
+        </div>
+    </div>
+
     <!-- Main Container -->
     <div class="container py-4">
-        <div class="row">
-            <!-- Left Side: User Management -->
-            <div class="col-lg-6 col-md-12 mb-4">
-                <div class="card border-dark">
-                    <div class="card-header bg-dark text-white">
-                        <h5 class="mb-0">股東管理</h5>
-                    </div>
-                    <div class="card-body">
-                        <!-- Add User Form -->
-                        <form id="userForm" class="mb-3">
-                            <div class="mb-3">
-                                <input type="text" class="form-control" id="add-user-name" placeholder="姓名" maxlength="20" required>
-                            </div>
-                            <div class="mb-3">
-                                <input type="number" class="form-control" id="add-user-amount" placeholder="投資金額" min="0" required>
-                            </div>
-                            <button type="button" class="btn btn-dark w-100" id="addUserBtn">新增股東</button>
-                        </form>
+        <!-- Tab Navigation -->
+        <div class="tab-navigation">
+            <button class="tab-button active" data-tab="distribution">收益分配</button>
+            <button class="tab-button" data-tab="lottery">刮刮樂結果</button>
+            <button class="tab-button" data-tab="shareholders">股東管理</button>
+        </div>
 
-                        <!-- User List -->
-                        <div id="userListContainer" class="mt-4">
-                            <h6 class="fw-bold">股東列表</h6>
-                            <div id="userListSpinner" class="spinner-container" style="display: none;">
-                                <div class="spinner-border" role="status">
-                                    <span class="visually-hidden">Loading...</span>
-                                </div>
+        <!-- Tab Content: Distribution Results -->
+        <div id="distribution" class="tab-content active">
+            <div class="row">
+                <div class="col-12">
+                    <div class="card border-dark mb-4">
+                        <div class="card-header bg-dark text-white">
+                            <h5 class="mb-0">資本額記錄</h5>
+                        </div>
+                        <div class="card-body">
+                            <div style="height: 300px; position: relative;">
+                                <canvas id="checkoutChart"></canvas>
                             </div>
-                            <div id="userList"></div>
                         </div>
                     </div>
                 </div>
             </div>
-
-            <!-- Right Side: Lottery Info -->
-            <div class="col-lg-6 col-md-12 mb-4">
-                <div class="card border-dark">
-                    <div class="card-header bg-dark text-white">
-                        <h5 class="mb-0">刮刮樂結果</h5>
-                    </div>
-                    <div class="card-body">
-                        <!-- Lottery Form -->
-                        <form id="lotteryForm" class="mb-3">
-                            <div class="mb-3">
-                                <input type="number" class="form-control" id="ticket-cost" placeholder="每張成本" min="0" required>
-                            </div>
-                            <div class="mb-3">
-                                <input type="number" class="form-control" id="ticket-profit" placeholder="每張收益" min="0" required>
-                            </div>
-                            <button type="button" class="btn btn-dark w-100" id="submitLotteryBtn">新增刮刮樂</button>
-                        </form>
-
-                        <!-- Lottery List -->
-                        <div id="lotteryListContainer" class="mt-4">
-                            <h6 class="fw-bold">刮刮樂清單</h6>
-                            <div id="lotteryListSpinner" class="spinner-container" style="display: none;">
-                                <div class="spinner-border" role="status">
-                                    <span class="visually-hidden">Loading...</span>
-                                </div>
-                            </div>
-                            <div id="lotteryList"></div>
+            <div class="row">
+                <div class="col-12">
+                    <div class="card border-dark">
+                        <div class="card-header bg-dark text-white">
+                            <h5 class="mb-0">收益分配</h5>
                         </div>
+                        <div class="card-body">
+                            <div id="distributionResults"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
 
-                        <!-- Summary Info -->
-                        <div class="mt-4 p-3 bg-light rounded">
-                            <div class="row">
-                                <div class="col-6">
-                                    <p class="text-muted mb-1">總投資金額</p>
-                                    <h5 class="fw-bold" id="totalAmount">0</h5>
+        <!-- Tab Content: Shareholder Management -->
+        <div id="shareholders" class="tab-content">
+            <div class="row">
+                <div class="col-lg-12 col-md-12 mb-4">
+                    <div class="card border-dark">
+                        <div class="card-header bg-dark text-white">
+                            <h5 class="mb-0">股東管理</h5>
+                        </div>
+                        <div class="card-body">
+                            <!-- Add User Form -->
+                            <form id="userForm" class="mb-3">
+                                <div class="mb-3">
+                                    <input type="text" class="form-control" id="add-user-name" placeholder="姓名" maxlength="20" required>
                                 </div>
-                                <div class="col-6">
-                                    <p class="text-muted mb-1">累計刮刮樂</p>
-                                    <h5 class="fw-bold" id="totalCost">0</h5>
+                                <div class="mb-3">
+                                    <input type="number" class="form-control" id="add-user-amount" placeholder="投資金額" min="0" required>
                                 </div>
-                                <div class="col-6">
-                                    <p class="text-muted mb-1">總共刮出</p>
-                                    <h5 class="fw-bold text-success" id="totalProfit">0</h5>
+                                <button type="button" class="btn btn-dark w-100" id="addUserBtn">新增股東</button>
+                            </form>
+
+                            <!-- User List -->
+                            <div id="userListContainer" class="mt-4">
+                                <h6 class="fw-bold">股東列表</h6>
+                                <div id="userListSpinner" class="spinner-container" style="display: none;">
+                                    <div class="spinner-border" role="status">
+                                        <span class="visually-hidden">Loading...</span>
+                                    </div>
                                 </div>
-                                <div class="col-6">
-                                    <p class="text-muted mb-1">淨收益</p>
-                                    <h5 class="fw-bold" id="netProfit">0</h5>
-                                </div>
+                                <div id="userList"></div>
                             </div>
                         </div>
                     </div>
@@ -282,15 +331,60 @@
             </div>
         </div>
 
-        <!-- Distribution Results -->
-        <div class="row mt-4">
-            <div class="col-12">
-                <div class="card border-dark">
-                    <div class="card-header bg-dark text-white">
-                        <h5 class="mb-0">收益分配</h5>
-                    </div>
-                    <div class="card-body">
-                        <div id="distributionResults"></div>
+        <!-- Tab Content: Lottery Results -->
+        <div id="lottery" class="tab-content">
+            <div class="row">
+                <div class="col-lg-12 col-md-12 mb-4">
+                    <div class="card border-dark">
+                        <div class="card-header bg-dark text-white">
+                            <h5 class="mb-0">刮刮樂結果</h5>
+                        </div>
+                        <div class="card-body">
+                            <!-- Lottery Form -->
+                            <form id="lotteryForm" class="mb-3">
+                                <div class="mb-3">
+                                    <input type="number" class="form-control" id="ticket-cost" placeholder="刮刮樂成本" min="0" required>
+                                </div>
+                                <div class="mb-3">
+                                    <input type="number" class="form-control" id="ticket-profit" placeholder="中獎金額" min="0" required>
+                                </div>
+                                <button type="button" class="btn btn-dark w-100" id="submitLotteryBtn">新增刮刮樂</button>
+                            </form>
+
+                            <!-- Lottery List -->
+                            <div id="lotteryListContainer" class="mt-4">
+                                <h6 class="fw-bold">刮刮樂清單</h6>
+                                <div id="lotteryListSpinner" class="spinner-container" style="display: none;">
+                                    <div class="spinner-border" role="status">
+                                        <span class="visually-hidden">Loading...</span>
+                                    </div>
+                                </div>
+                                <div id="lotteryList"></div>
+                            </div>
+
+                            <!-- Summary Info -->
+                            <div class="mt-4 p-3 bg-light rounded">
+                                <div class="row">
+                                    <div class="col-6">
+                                        <p class="text-muted mb-1">原始投資金額</p>
+                                        <h5 class="fw-bold" id="totalAmount">0</h5>
+                                    </div>
+                                    <div class="col-6">
+                                        <p class="text-muted mb-1">累計刮刮樂</p>
+                                        <h5 class="fw-bold" id="totalCost">0</h5>
+                                    </div>
+                                    <div class="col-6">
+                                        <p class="text-muted mb-1">總共刮出</p>
+                                        <h5 class="fw-bold text-success" id="totalProfit">0</h5>
+                                    </div>
+                                    <div class="col-6">
+                                        <p class="text-muted mb-1">淨收益</p>
+                                        <h5 class="fw-bold" id="netProfit">0</h5>
+                                    </div>
+                                </div>
+                                <button class="btn btn-success w-100 mt-3" id="checkoutBtn">結帳</button>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -304,6 +398,8 @@
           
     <!-- Bootstrap -->
     <script src="assets/js/bootstrap.bundle.min.js"></script>
+    <!-- Chart.js -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@3.9.1/dist/chart.min.js"></script>
     <!-- FireBase -->
     <script src="https://code.jquery.com/jquery-3.3.1.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8="
     crossorigin="anonymous"></script>
@@ -318,7 +414,28 @@
             lotteryApp.init();
             _initThemeToggle();
             _initImageModal();
+            _initTabNavigation();
         });
+
+        // Tab Navigation
+        function _initTabNavigation() {
+            const tabButtons = document.querySelectorAll('.tab-button');
+            const tabContents = document.querySelectorAll('.tab-content');
+
+            tabButtons.forEach(button => {
+                button.addEventListener('click', function() {
+                    const tabName = this.getAttribute('data-tab');
+                    
+                    // Remove active class from all buttons and contents
+                    tabButtons.forEach(btn => btn.classList.remove('active'));
+                    tabContents.forEach(content => content.classList.remove('active'));
+                    
+                    // Add active class to clicked button and corresponding content
+                    this.classList.add('active');
+                    document.getElementById(tabName).classList.add('active');
+                });
+            });
+        }
 
         // Dark/Light Mode Toggle
         function _initThemeToggle() {
@@ -346,6 +463,11 @@
                 htmlElement.setAttribute('data-bs-theme', newTheme);
                 localStorage.setItem('theme', newTheme);
                 themeIcon.className = newTheme === 'dark' ? 'fas fa-sun' : 'fas fa-moon';
+                
+                // 重新繪製圖表
+                if (typeof lotteryApp !== 'undefined' && typeof lotteryApp._drawChart === 'function') {
+                    lotteryApp._drawChart();
+                }
             });
         }
 

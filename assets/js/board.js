@@ -16,6 +16,7 @@ var db = firebase.database();
 var lotteryApp = (function() {
     var users = {};
     var lotteryResults = {};
+    var checkouts = [];
     const db_ref = 'lottery_fund';
 
     function init() {
@@ -57,12 +58,52 @@ var lotteryApp = (function() {
                 $('#lotteryForm')[0].reset();
                 _loadData();
                 
-                // 如果收益 > 0，顯示慶祝gif
+                // 如果收益 > 0，顯示慶祝gif；否則顯示難過gif
                 if (profit > 0) {
                     _showCongratsGif();
+                } else if (profit === 0) {
+                    _showSadGif();
                 }
             } else {
                 alert('請輸入有效的成本和收益');
+            }
+        });
+
+        // 結帳按鈕
+        $('#checkoutBtn').click(function() {
+            var totalAmount = 0;
+            for (let userId in users) {
+                if (users.hasOwnProperty(userId)) {
+                    totalAmount += users[userId].amount;
+                }
+            }
+
+            var totalCost = 0;
+            var totalProfit = 0;
+            for (let lotteryId in lotteryResults) {
+                if (lotteryResults.hasOwnProperty(lotteryId)) {
+                    totalCost += lotteryResults[lotteryId].cost;
+                    totalProfit += lotteryResults[lotteryId].profit;
+                }
+            }
+
+            var netProfit = totalProfit - totalCost;
+            var checkoutAmount = totalAmount + netProfit;
+
+            if (Object.keys(users).length === 0) {
+                alert('請先新增參與者');
+            } else {
+                if (confirm('確定要結帳嗎？')) {
+                    var checkoutId = _generateId();
+                    db.ref(`${db_ref}/checkouts/${checkoutId}`).set({
+                        amount: checkoutAmount,
+                        originalAmount: totalAmount,
+                        netProfit: netProfit,
+                        timestamp: new Date().toLocaleString('zh-TW')
+                    });
+                    alert('結帳成功！金額：$' + checkoutAmount.toLocaleString());
+                    _loadData();
+                }
             }
         });
     }
@@ -83,8 +124,23 @@ var lotteryApp = (function() {
     function _loadLotteryData() {
         db.ref(`${db_ref}/lotteries`).once('value').then((snapshot) => {
             lotteryResults = snapshot.val() || {};
+            _loadCheckoutData();
+        });
+    }
+
+    function _loadCheckoutData() {
+        db.ref(`${db_ref}/checkouts`).once('value').then((snapshot) => {
+            var checkoutData = snapshot.val() || {};
+            checkouts = [];
+            for (let checkoutId in checkoutData) {
+                if (checkoutData.hasOwnProperty(checkoutId)) {
+                    checkouts.push(checkoutData[checkoutId]);
+                }
+            }
+            checkouts.sort((a, b) => new Date(a.timestamp) - new Date(b.timestamp));
             _updateDisplay();
             _calculateDistribution();
+            _drawChart();
         });
     }
 
@@ -131,7 +187,7 @@ var lotteryApp = (function() {
                         <div class="card-body py-2">
                             <div class="d-flex justify-content-between align-items-center">
                                 <div>
-                                    <h6 class="fw-bold mb-1">成本: $${lottery.cost.toLocaleString()} | 收益: $${lottery.profit.toLocaleString()}</h6>
+                                    <h6 class="fw-bold mb-1">成本: $${lottery.cost.toLocaleString()} | 中獎金額: $${lottery.profit.toLocaleString()}</h6>
                                     <p class="text-muted mb-0 ${profitClass}">損益: ${netProfit >= 0 ? '+' : ''}$${netProfit.toLocaleString()}</p>
                                     <p class="text-muted mb-0" style="font-size: 0.85rem;">${lottery.timestamp}</p>
                                 </div>
@@ -189,12 +245,13 @@ var lotteryApp = (function() {
             distributionHtml = '<p class="text-muted text-center">總投資金額為0</p>';
         } else {
             var distribution = {};
+            var netProfit = totalProfit - totalCost;
             
             for (let userId in users) {
                 if (users.hasOwnProperty(userId)) {
                     var user = users[userId];
                     var ratio = user.amount / totalAmount;
-                    var share = totalProfit * ratio;
+                    var share = user.amount + (netProfit * ratio);
                     distribution[userId] = {
                         name: user.name,
                         amount: user.amount,
@@ -229,6 +286,95 @@ var lotteryApp = (function() {
         document.getElementById('distributionResults').innerHTML = distributionHtml;
     }
 
+    function _drawChart() {
+        var chartCanvas = document.getElementById('checkoutChart');
+        if (!chartCanvas) return;
+
+        // 檢查深色模式
+        var isDarkMode = document.documentElement.getAttribute('data-bs-theme') === 'dark';
+        var textColor = isDarkMode ? '#adb5bd' : '#212529';
+        var gridColor = isDarkMode ? '#495057' : '#dee2e6';
+        var lineColor = isDarkMode ? '#80bdff' : '#212529';
+        var bgColor = isDarkMode ? 'rgba(128, 189, 255, 0.1)' : 'rgba(33, 37, 41, 0.1)';
+
+        // 準備圖表數據
+        var labels = [];
+        var data = [];
+        
+        for (let i = 0; i < checkouts.length; i++) {
+            labels.push('R' + i);
+            data.push(checkouts[i].amount);
+        }
+
+        // 如果沒有數據，顯示提示
+        if (data.length === 0) {
+            labels = ['R0'];
+            data = [0];
+        }
+
+        // 銷毀舊圖表
+        if (window.checkoutChartInstance) {
+            window.checkoutChartInstance.destroy();
+        }
+
+        // 創建新圖表
+        var ctx = chartCanvas.getContext('2d');
+        window.checkoutChartInstance = new Chart(ctx, {
+            type: 'line',
+            data: {
+                labels: labels,
+                datasets: [{
+                    label: '資本額',
+                    data: data,
+                    borderColor: lineColor,
+                    backgroundColor: bgColor,
+                    borderWidth: 2,
+                    tension: 0.4,
+                    fill: true,
+                    pointRadius: 5,
+                    pointBackgroundColor: lineColor,
+                    pointHoverRadius: 7
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: {
+                    legend: {
+                        display: true,
+                        position: 'top',
+                        labels: {
+                            color: textColor
+                        }
+                    }
+                },
+                scales: {
+                    y: {
+                        beginAtZero: true,
+                        ticks: {
+                            color: textColor,
+                            stepSize: 1000,
+                            callback: function(value) {
+                                return '$' + value.toLocaleString();
+                            }
+                        },
+                        grid: {
+                            color: gridColor
+                        }
+                    },
+                    x: {
+                        ticks: {
+                            color: textColor
+                        },
+                        grid: {
+                            color: gridColor
+                        }
+                    }
+                }
+            }
+        });
+    }
+
     function _generateId() {
         return 'item_' + Date.now() + '_' + Math.random().toString(36).substr(2, 9);
     }
@@ -236,6 +382,11 @@ var lotteryApp = (function() {
     function _showCongratsGif() {
         var congratsModal = new bootstrap.Modal(document.getElementById('congratsModal'));
         congratsModal.show();
+    }
+
+    function _showSadGif() {
+        var sadModal = new bootstrap.Modal(document.getElementById('sadModal'));
+        sadModal.show();
     }
 
     function deleteUser(userId) {
@@ -255,7 +406,8 @@ var lotteryApp = (function() {
     return {
         init,
         deleteUser,
-        deleteLottery
+        deleteLottery,
+        _drawChart
     };
 })();
 
