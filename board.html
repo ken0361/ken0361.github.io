@@ -137,6 +137,22 @@
             background-color: #495057;
             color: #fff;
         }
+
+        /* Spinner Style */
+        .spinner-container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100px;
+        }
+
+        .spinner-border {
+            color: #495057;
+        }
+
+        [data-bs-theme="dark"] .spinner-border {
+            color: #adb5bd;
+        }
     </style>
 </head>
 
@@ -160,6 +176,17 @@
             <div class="modal-content" style="border: none; background-color: transparent; box-shadow: none;">
                 <div class="modal-body text-center p-0">
                     <img id="enlargedImage" src="" alt="Enlarged" style="max-width: 100%; height: auto;">
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Congratulations Modal -->
+    <div class="modal fade" id="congratsModal" tabindex="-1" aria-labelledby="congratsModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-lg modal-dialog-centered">
+            <div class="modal-content" style="border: none; background-color: transparent; box-shadow: none;">
+                <div class="modal-body text-center p-0">
+                    <img id="congratsImage" src="assets/img/congrats.gif" alt="Congratulations" style="max-width: 100%; height: auto;">
                 </div>
             </div>
         </div>
@@ -189,6 +216,11 @@
                         <!-- User List -->
                         <div id="userListContainer" class="mt-4">
                             <h6 class="fw-bold">股東列表</h6>
+                            <div id="userListSpinner" class="spinner-container" style="display: none;">
+                                <div class="spinner-border" role="status">
+                                    <span class="visually-hidden">Loading...</span>
+                                </div>
+                            </div>
                             <div id="userList"></div>
                         </div>
                     </div>
@@ -216,6 +248,11 @@
                         <!-- Lottery List -->
                         <div id="lotteryListContainer" class="mt-4">
                             <h6 class="fw-bold">刮刮樂清單</h6>
+                            <div id="lotteryListSpinner" class="spinner-container" style="display: none;">
+                                <div class="spinner-border" role="status">
+                                    <span class="visually-hidden">Loading...</span>
+                                </div>
+                            </div>
                             <div id="lotteryList"></div>
                         </div>
 
