@@ -2,13 +2,17 @@
 <html lang="en">
 
 <head>
-    <title>Task Management & Bulletin Board</title>
+    <title>Life Tool</title>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <!-- Load Require CSS -->
     <link href="assets/css/bootstrap.min.css" rel="stylesheet">
     <!-- Font CSS -->
     <link href="https://unpkg.com/boxicons@2.1.1/css/boxicons.min.css" rel="stylesheet">
+    <!-- Font Awesome (icons used by theme toggle) -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Site styles (shared dark-mode rules) -->
+    <link href="assets/css/site.css" rel="stylesheet">
 </head>
 
 <body>
@@ -17,47 +21,29 @@
         <div class="container d-flex justify-content-between align-items-center">
             <div class="navbar-brand h1">
                 <a style="text-decoration: none;">
-                    <span class="text-dark h3">Task Management</span>
+                    <span class="text-dark h3">Life Tool</span>
                 </a>
-                <img src="assets/img/bala.jpg" class="rounded-circle mr-1" alt="Chris Wood" width="40" height="40">
+                <img id="logoImg" src="assets/img/bala.jpg" class="rounded-circle mr-1" alt="Logo" width="40" height="40" style="cursor: pointer;">
+                <img id="logoImg" src="assets/img/meow.jpg" class="rounded-circle mr-1" alt="Logo" width="40" height="40" style="cursor: pointer;">
             </div>
-            <button class="navbar-toggler border-0" type="button" data-bs-toggle="collapse" data-bs-target="#navbar-toggler-success" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-                <span class="navbar-toggler-icon"></span>
+            <button id="themeToggle" class="btn btn-outline-secondary" title="切換主題">
+                <i id="themeIcon" class="fas fa-moon"></i>
             </button>
-
-            <div class="collapse navbar-collapse" id="navbar-toggler-success">
-                <div class="align-self-center flex-fill d-lg-flex justify-content-lg-between mb-2">
-                    <div class="flex-fill mx-xl-5 mb-2">
-                        <ul class="nav navbar-nav d-flex justify-content-between mx-xl-5 text-center text-dark">
-                            <li class="nav-item">
-                                <a class="nav-link btn-outline-primary rounded-pill px-3" href="index.html">Task Management</a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link btn-outline-primary rounded-pill px-3" href="board.html">Bulletin Board</a>
-                            </li>
-                        </ul>
-                    </div>
-                </div>
-            </div>
         </div>
     </nav>
-    <!-- Close Header -->
 
-    <div class="container py-3">
-        <form id="insertToDoForm">
-            <div class="container mb-3 d-flex justify-content-between">
-                <input type="date" id="date" name="date">
-                <input type="text" class="form-control" id="todo" placeholder="+ToDo" maxlength="100" onkeypress="handleKeyPress(event)">
-                <button onclick="insertToDo()" type="button" class="btn btn-dark">Enter</button>
-            </div>
-        </form>
-        <div id="show">
-            <i onclick="showCompleted()" class='bx bx-show bx-sm'></i>
+    <div class="container py-4">
+        <!-- Action buttons: centered, with icons and improved styling -->
+        <div class="mb-3 action-buttons d-flex justify-content-center flex-wrap">
+            <a class="btn btn-primary rounded-pill action-btn mb-2" href="trip.html">
+                <i class="fas fa-route" aria-hidden="true"></i>
+                <span>東京行</span>
+            </a>
+            <a class="btn btn-primary rounded-pill action-btn mb-2" href="board.html">
+                <i class="fas fa-clipboard" aria-hidden="true"></i>
+                <span>刮刮樂</span>
+            </a>
         </div>
-    </div>
-
-    <div class="container">
-        <div id="allBackUp"></div>
     </div>
 
 
@@ -70,13 +56,39 @@
     <script src="https://www.gstatic.com/firebasejs/8.5.0/firebase-auth.js"></script>
     <script src="https://www.gstatic.com/firebasejs/8.5.0/firebase-database.js"></script>
     <!-- JS -->
-    <script src="assets/js/task.js"></script>
     <script>
+        // Theme toggle for index.html
+        function _initThemeToggle() {
+            const themeToggle = document.getElementById('themeToggle');
+            const themeIcon = document.getElementById('themeIcon');
+            const htmlElement = document.documentElement;
+            const savedTheme = localStorage.getItem('theme') || 'light';
+
+            if (savedTheme === 'dark') {
+                htmlElement.setAttribute('data-bs-theme', 'dark');
+                themeIcon.className = 'fas fa-sun';
+            } else {
+                htmlElement.setAttribute('data-bs-theme', 'light');
+                themeIcon.className = 'fas fa-moon';
+            }
+
+            if (!themeToggle) return;
+            if (themeToggle.__bound) return;
+            themeToggle.__bound = true;
+
+            themeToggle.addEventListener('click', function() {
+                const currentTheme = htmlElement.getAttribute('data-bs-theme') || 'light';
+                const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
+                htmlElement.setAttribute('data-bs-theme', newTheme);
+                localStorage.setItem('theme', newTheme);
+                themeIcon.className = newTheme === 'dark' ? 'fas fa-sun' : 'fas fa-moon';
+            });
+        }
+
         $(document).ready(function () {
-            get_start.init();
+            _initThemeToggle();
         });
     </script>
-
 </body>
 
 </html>
