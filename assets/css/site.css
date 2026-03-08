@@ -189,13 +189,7 @@
     border-bottom-color: #fff;
 }
 
-.tab-content {
-    display: none;
-}
-
-.tab-content.active {
-    display: block;
-}
+/* Removed custom .tab-content hide/show rules to preserve Bootstrap tab behavior */
 
 /* Action buttons on index page */
 .action-buttons {
@@ -229,4 +223,140 @@
     .action-btn {
         min-width: 100%;
     }
+}
+
+/* Timeline styles for trip.html */
+.timeline {
+    display: flex;
+    gap: 1rem;
+    align-items: flex-start;
+}
+.timeline-left {
+    width: 40px;
+    position: relative;
+}
+.timeline-left .timeline-line {
+    position: absolute;
+    left: 20px;
+    top: 0;
+    bottom: 0;
+    width: 2px;
+    background: #dee2e6;
+}
+.timeline-right {
+    flex: 1 1 auto;
+}
+.timeline-item {
+    position: relative;
+    display: flex;
+    align-items: flex-start;
+}
+.timeline-time {
+    width: 60px;
+    text-align: right;
+    padding-right: 8px;
+    font-weight: 600;
+    color: #6c757d;
+}
+.timeline-dot {
+    position: absolute;
+    left: -20px;
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+    background: #fff;
+    border: 3px solid #0d6efd;
+    box-sizing: border-box;
+}
+.timeline-arrow {
+    color: #6c757d;
+}
+
+/* Spacing for card inside timeline item */
+.timeline-item .card {
+    box-shadow: 0 6px 14px rgba(16,24,40,0.06);
+}
+
+@media (max-width: 576px) {
+    .timeline {
+        flex-direction: column;
+        position: relative;
+    }
+    /* Vertical line fixed on the left side on mobile */
+    .timeline-left {
+        width: 40px;
+        position: absolute;
+        left: 0;
+        top: 0;
+        bottom: 0;
+        pointer-events: none;
+    }
+    .timeline-left .timeline-line {
+        display: block;
+        left: 20px;
+        top: 0;
+        bottom: 0;
+        transform: none;
+    }
+    /* Keep content shifted right so it doesn't overlap the line */
+    .timeline-right {
+        width: 100%;
+        padding-left: 56px;
+    }
+    .timeline-item {
+        display: flex;
+        flex-direction: column;
+        align-items: flex-start;
+        text-align: left;
+        padding: 1rem 0;
+        position: relative;
+    }
+    .timeline-time {
+        width: auto;
+        text-align: left;
+        padding-right: 0;
+        margin-bottom: .25rem;
+        order: 0;
+    }
+    .timeline-item .card {
+        width: 100%;
+    }
+    /* Position dot so its center aligns with the vertical line at 20px */
+    .timeline-dot {
+        display: block;
+        left: -42px;
+        transform: none;
+        margin-top: -6px;
+    }
+    .timeline-arrow {
+        margin: .4rem 0;
+        order: 2;
+        display: none;
+    }
+}
+
+/* Card title styling */
+.card-title {
+    font-weight: 700;
+    font-size: 1.1rem;
+}
+
+/* Ensure timeline item cards are full width */
+.timeline-item .card {
+    width: 100%;
+}
+
+/* Dark theme variants */
+[data-bs-theme="dark"] .timeline-left .timeline-line {
+    background: #495057;
+}
+[data-bs-theme="dark"] .timeline-time {
+    color: #adb5bd;
+}
+[data-bs-theme="dark"] .timeline-dot {
+    background: #2d3139;
+    border-color: #80bdff;
+}
+[data-bs-theme="dark"] .timeline-arrow {
+    color: #adb5bd;
 }
