@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+	<title>Trip - Life Tool</title>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<link href="assets/css/bootstrap.min.css" rel="stylesheet">
+	<link href="https://unpkg.com/boxicons@2.1.1/css/boxicons.min.css" rel="stylesheet">
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+	<link href="assets/css/site.css" rel="stylesheet">
+</head>
+
+<body>
+	<!-- Header (same as index.html) -->
+	<nav id="main_nav" class="navbar navbar-expand-lg navbar-light bg-white shadow">
+		<div class="container d-flex justify-content-between align-items-center">
+			<div class="navbar-brand h1">
+				<a style="text-decoration: none;">
+					<span class="text-dark h3">Life Tool</span>
+				</a>
+				<img id="logoImg" src="assets/img/bala.jpg" class="rounded-circle mr-1" alt="Logo" width="40" height="40" style="cursor: pointer;">
+				<img id="logoImg" src="assets/img/meow.jpg" class="rounded-circle mr-1" alt="Logo" width="40" height="40" style="cursor: pointer;">
+			</div>
+			<button id="themeToggle" class="btn btn-outline-secondary" title="切換主題">
+				<i id="themeIcon" class="fas fa-moon"></i>
+			</button>
+		</div>
+	</nav>
+
+	<div class="container py-4">
+		<div class="row mb-4 gx-2">
+			<div class="col-6">
+				<div class="card h-100">
+					<div class="card-body">
+						<div class="d-flex justify-content-between align-items-start">
+							<small id="taiwanDate" class="small text-muted"> </small>
+							<small class="fw-semibold">台灣</small>
+						</div>
+						<p id="taiwanTime" class="h3 text-center my-3">--:--:--</p>
+					</div>
+				</div>
+			</div>
+			<div class="col-6">
+				<div class="card h-100">
+					<div class="card-body">
+						<div class="d-flex justify-content-between align-items-start">
+							<small id="japanDate" class="small text-muted"> </small>
+							<small class="fw-semibold">日本</small>
+						</div>
+						<p id="japanTime" class="h3 text-center my-3">--:--:--</p>
+					</div>
+				</div>
+			</div>
+		</div>
+
+		<!-- Tabs for 3/12 ~ 3/15 -->
+		<ul class="nav nav-tabs w-100" id="tripTabs" role="tablist" style="display:flex;">
+			<li class="nav-item" role="presentation" style="flex:1;">
+				<button class="nav-link active w-100 text-center" id="d12-tab" data-bs-toggle="tab" data-bs-target="#d12" type="button" role="tab" aria-controls="d12" aria-selected="true">3/12(四)</button>
+			</li>
+			<li class="nav-item" role="presentation" style="flex:1;">
+				<button class="nav-link w-100 text-center" id="d13-tab" data-bs-toggle="tab" data-bs-target="#d13" type="button" role="tab" aria-controls="d13" aria-selected="false">3/13(五)</button>
+			</li>
+			<li class="nav-item" role="presentation" style="flex:1;">
+				<button class="nav-link w-100 text-center" id="d14-tab" data-bs-toggle="tab" data-bs-target="#d14" type="button" role="tab" aria-controls="d14" aria-selected="false">3/14(六)</button>
+			</li>
+			<li class="nav-item" role="presentation" style="flex:1;">
+				<button class="nav-link w-100 text-center" id="d15-tab" data-bs-toggle="tab" data-bs-target="#d15" type="button" role="tab" aria-controls="d15" aria-selected="false">3/15(日)</button>
+			</li>
+			<li class="nav-item" role="presentation" style="flex:1;">
+				<button class="nav-link w-100 text-center" id="expense-tab" data-bs-toggle="tab" data-bs-target="#expense" type="button" role="tab" aria-controls="expense" aria-selected="false">花費</button>
+			</li>
+		</ul>
+		<div class="tab-content p-3 border border-top-0" id="tripTabsContent">
+			<div class="tab-pane fade show active" id="d12" role="tabpanel" aria-labelledby="d12-tab">
+				<h5>3/12 (四)</h5>
+				<p>範例內容：抵達成田，前往飯店放行李、淺草散步。</p>
+			</div>
+			<div class="tab-pane fade" id="d13" role="tabpanel" aria-labelledby="d13-tab">
+				<h5>3/13 (五)</h5>
+				<p>範例內容：迪士尼一日遊或市區行程。</p>
+			</div>
+			<div class="tab-pane fade" id="d14" role="tabpanel" aria-labelledby="d14-tab">
+				<h5>3/14 (六)</h5>
+				<p>範例內容：箱根 / 鎌倉 或 自由行動。</p>
+			</div>
+			<div class="tab-pane fade" id="d15" role="tabpanel" aria-labelledby="d15-tab">
+				<h5>3/15 (日)</h5>
+				<p>範例內容：購物、前往機場返台。</p>
+			</div>
+			<div class="tab-pane fade" id="expense" role="tabpanel" aria-labelledby="expense-tab">
+				<h5>花費</h5>
+				<p>範例內容：交通、餐飲、景點門票等預估花費。</p>
+			</div>
+		</div>
+
+	</div>
+
+	<!-- Scripts -->
+	<script src="https://code.jquery.com/jquery-3.3.1.min.js" crossorigin="anonymous"></script>
+	<script src="assets/js/bootstrap.bundle.min.js"></script>
+	<script>
+		// Theme toggle (same logic as index)
+		function _initThemeToggle() {
+			const themeToggle = document.getElementById('themeToggle');
+			const themeIcon = document.getElementById('themeIcon');
+			const htmlElement = document.documentElement;
+			const savedTheme = localStorage.getItem('theme') || 'light';
+
+			if (savedTheme === 'dark') {
+				htmlElement.setAttribute('data-bs-theme', 'dark');
+				themeIcon.className = 'fas fa-sun';
+			} else {
+				htmlElement.setAttribute('data-bs-theme', 'light');
+				themeIcon.className = 'fas fa-moon';
+			}
+
+			if (!themeToggle) return;
+			if (themeToggle.__bound) return;
+			themeToggle.__bound = true;
+
+			themeToggle.addEventListener('click', function() {
+				const currentTheme = htmlElement.getAttribute('data-bs-theme') || 'light';
+				const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
+				htmlElement.setAttribute('data-bs-theme', newTheme);
+				localStorage.setItem('theme', newTheme);
+				themeIcon.className = newTheme === 'dark' ? 'fas fa-sun' : 'fas fa-moon';
+			});
+		}
+
+		// Update Taiwan and Japan times (24-hour)
+		function updateTimes() {
+			const now = new Date();
+			const timeOpts = { hour: '2-digit', minute: '2-digit', second: '2-digit', hour12: false };
+			const taiwanFmt = new Intl.DateTimeFormat('zh-TW', Object.assign({}, timeOpts, { timeZone: 'Asia/Taipei' }));
+			const japanFmt = new Intl.DateTimeFormat('ja-JP', Object.assign({}, timeOpts, { timeZone: 'Asia/Tokyo' }));
+
+			function formatDateTZ(timeZone) {
+				const parts = new Intl.DateTimeFormat('en-GB', { timeZone: timeZone, year: 'numeric', month: '2-digit', day: '2-digit' }).formatToParts(new Date());
+				let y = '', m = '', d = '';
+				parts.forEach(p => {
+					if (p.type === 'year') y = p.value;
+					if (p.type === 'month') m = p.value;
+					if (p.type === 'day') d = p.value;
+				});
+				return `${y}/${m}/${d}`;
+			}
+
+			const tElem = document.getElementById('taiwanTime');
+			const jElem = document.getElementById('japanTime');
+			const tDateElem = document.getElementById('taiwanDate');
+			const jDateElem = document.getElementById('japanDate');
+			if (tElem) tElem.textContent = taiwanFmt.format(now);
+			if (jElem) jElem.textContent = japanFmt.format(now);
+			if (tDateElem) tDateElem.textContent = formatDateTZ('Asia/Taipei');
+			if (jDateElem) jDateElem.textContent = formatDateTZ('Asia/Tokyo');
+		}
+
+		document.addEventListener('DOMContentLoaded', function() {
+			_initThemeToggle();
+			updateTimes();
+			setInterval(updateTimes, 1000);
+		});
+	</script>
+</body>
+
+</html>
