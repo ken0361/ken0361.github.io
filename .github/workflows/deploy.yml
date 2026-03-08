@@ -16,7 +16,6 @@ jobs:
     - name: Replace API key in JavaScript files
       run: |
         sed -i 's/APIKEY_PLACEHOLDER/${{ secrets.APIKEY }}/g' assets/js/board.js
-        sed -i 's/APIKEY_PLACEHOLDER/${{ secrets.APIKEY }}/g' assets/js/task.js
 
     - name: Deploy to GitHub Pages
       uses: peaceiris/actions-gh-pages@v3
