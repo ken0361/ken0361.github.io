@@ -9,6 +9,18 @@
 	<link href="https://unpkg.com/boxicons@2.1.1/css/boxicons.min.css" rel="stylesheet">
 	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 	<link href="assets/css/site.css" rel="stylesheet">
+
+	<style>
+		/* Hide common delete controls when locked. Uses attribute on <html>: data-delete-lock="locked" */
+		html[data-delete-lock="locked"] .requires-unlocked,
+		html[data-delete-lock="locked"] [data-delete],
+		html[data-delete-lock="locked"] [data-action="delete"],
+		html[data-delete-lock="locked"] .delete-btn,
+		html[data-delete-lock="locked"] .btn-delete,
+		html[data-delete-lock="locked"] .fa-trash {
+			display: none !important;
+		}
+	</style>
 </head>
 
 <body>
@@ -21,9 +33,15 @@
 				</a>
 				<img id="logoImg" src="assets/img/東京地鐵.png" class="rounded-circle mr-1" alt="Logo" width="40" height="40" style="cursor: pointer;">
 			</div>
-			<button id="themeToggle" class="btn btn-outline-secondary" title="切換主題">
-				<i id="themeIcon" class="fas fa-moon"></i>
-			</button>
+			<div class="d-flex align-items-center">
+				<!-- Lock toggle: when unlocked, delete controls are visible -->
+				<button id="deleteLockToggle" class="btn btn-outline-secondary me-2" title="解鎖以顯示刪除控制">
+					<i id="deleteLockIcon" class="fas fa-lock"></i>
+				</button>
+				<button id="themeToggle" class="btn btn-outline-secondary" title="切換主題">
+					<i id="themeIcon" class="fas fa-moon"></i>
+				</button>
+			</div>
 		</div>
 	</nav>
 
@@ -219,6 +237,30 @@
 			});
 		}
 
+		// Delete-lock toggle: controls visibility of delete controls across the page
+		function _initDeleteLock() {
+			const toggle = document.getElementById('deleteLockToggle');
+			const icon = document.getElementById('deleteLockIcon');
+			const htmlEl = document.documentElement;
+			if (!toggle || !icon) return;
+
+			// state stored as 'locked' or 'unlocked'
+			let state = localStorage.getItem('deleteLock') || 'locked';
+			htmlEl.setAttribute('data-delete-lock', state);
+			icon.className = state === 'unlocked' ? 'fas fa-lock-open' : 'fas fa-lock';
+			toggle.title = state === 'unlocked' ? '已解鎖：刪除控制可見，點擊以鎖定' : '已鎖定：刪除控制隱藏，點擊以解鎖';
+
+			if (toggle.__bound) return;
+			toggle.__bound = true;
+			toggle.addEventListener('click', function() {
+				state = htmlEl.getAttribute('data-delete-lock') === 'unlocked' ? 'locked' : 'unlocked';
+				htmlEl.setAttribute('data-delete-lock', state);
+				localStorage.setItem('deleteLock', state);
+				icon.className = state === 'unlocked' ? 'fas fa-lock-open' : 'fas fa-lock';
+				toggle.title = state === 'unlocked' ? '已解鎖：刪除控制可見，點擊以鎖定' : '已鎖定：刪除控制隱藏，點擊以解鎖';
+			});
+		}
+
 		// Update Taiwan and Japan times (24-hour)
 		function updateTimes() {
 			const now = new Date();
@@ -249,6 +291,7 @@
 
 		document.addEventListener('DOMContentLoaded', function() {
 			_initThemeToggle();
+			_initDeleteLock();
 			updateTimes();
 			setInterval(updateTimes, 1000);
 		});
