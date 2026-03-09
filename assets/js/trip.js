@@ -57,8 +57,8 @@ function renderItem(docSnap, dayKey) {
           <div class="card-body">
             <h6 class="card-title mb-1">${escapeHtml(title)}</h6>
             <p class="card-text mb-1 small">${formatTextWithLineBreaks(desc)}</p>
-            <button class="btn btn-sm btn-outline-secondary card-edit-btn" onclick="tripApp.openEditModal('${id}','${dayKey}')" title="編輯"><i class="fas fa-pen"></i></button>
-            <button class="btn btn-sm btn-outline-danger card-delete-btn" onclick="tripApp.deleteItem('${id}','${dayKey}')" title="刪除"><i class="fas fa-minus"></i></button>
+            <button class="btn btn-sm btn-outline-secondary card-edit-btn requires-unlocked" data-action="edit" onclick="tripApp.openEditModal('${id}','${dayKey}')" title="編輯"><i class="fas fa-pen"></i></button>
+            <button class="btn btn-sm btn-outline-danger card-delete-btn requires-unlocked" data-action="delete" onclick="tripApp.deleteItem('${id}','${dayKey}')" title="刪除"><i class="fas fa-minus"></i></button>
           </div>
         </div>
       </div>
@@ -98,8 +98,8 @@ function renderExpenseItem(docSnap) {
         </div>
       </div>
       <div class="ms-2 d-flex flex-column gap-1">
-        <button class="btn btn-sm btn-outline-secondary" title="編輯" onclick="tripApp.openExpenseModal('${id}')"><i class="fas fa-pen"></i></button>
-        <button class="btn btn-sm btn-outline-danger" title="刪除" onclick="tripApp.deleteExpense('${id}')"><i class="fas fa-trash"></i></button>
+        <button class="btn btn-sm btn-outline-secondary requires-unlocked" data-action="edit" title="編輯" onclick="tripApp.openExpenseModal('${id}')"><i class="fas fa-pen"></i></button>
+        <button class="btn btn-sm btn-outline-danger requires-unlocked" data-action="delete" title="刪除" onclick="tripApp.deleteExpense('${id}')"><i class="fas fa-trash"></i></button>
       </div>
     </div>
   `;
@@ -430,7 +430,7 @@ onSnapshot(daysCol, snapshot => {
     const data = docSnap.data();
     const label = data.label || id;
     if (firstId === null) firstId = id;
-    tabsHtml += `<li class="nav-item d-flex align-items-center" role="presentation" style="flex:1; position:relative;"><button class="nav-link w-100 text-center tab-with-close" id="tab-${id}" data-bs-toggle="tab" data-bs-target="#pane-${id}" type="button" role="tab" aria-controls="pane-${id}" aria-selected="false">${escapeHtml(label)}</button><span class="tab-close" onclick="tripApp.deleteDay('${id}')">✕</span></li>`;
+    tabsHtml += `<li class="nav-item d-flex align-items-center" role="presentation" style="flex:1; position:relative;"><button class="nav-link w-100 text-center tab-with-close" id="tab-${id}" data-bs-toggle="tab" data-bs-target="#pane-${id}" type="button" role="tab" aria-controls="pane-${id}" aria-selected="false">${escapeHtml(label)}</button><span class="tab-close requires-unlocked" data-action="delete" title="刪除日期" onclick="tripApp.deleteDay('${id}')">✕</span></li>`;
     panesHtml += `<div class="tab-pane fade" id="pane-${id}" role="tabpanel" aria-labelledby="tab-${id}"><div class="d-flex justify-content-end mb-2"><button class="btn btn-sm btn-primary btn-icon" aria-label="新增項目" onclick="tripApp.openAddModal('${id}')"><i class="fas fa-plus"></i></button></div><div class="timeline mt-3"><div class="timeline-left"><div class="timeline-line"></div></div><div class="timeline-right" id="timeline-${id}"></div></div></div>`;
   });
 
