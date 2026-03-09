@@ -2,7 +2,7 @@
 <html lang="en">
 
 <head>
-	<title>Trip - Life Tool</title>
+	<title>Trip</title>
 	<meta charset="utf-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<link href="assets/css/bootstrap.min.css" rel="stylesheet">
@@ -17,10 +17,9 @@
 		<div class="container d-flex justify-content-between align-items-center">
 			<div class="navbar-brand h1">
 				<a style="text-decoration: none;">
-					<span class="text-dark h3">Life Tool</span>
+					<span class="text-dark h3"></span>
 				</a>
-				<img id="logoImg" src="assets/img/bala.jpg" class="rounded-circle mr-1" alt="Logo" width="40" height="40" style="cursor: pointer;">
-				<img id="logoImg" src="assets/img/meow.jpg" class="rounded-circle mr-1" alt="Logo" width="40" height="40" style="cursor: pointer;">
+				<img id="logoImg" src="assets/img/東京地鐵.png" class="rounded-circle mr-1" alt="Logo" width="40" height="40" style="cursor: pointer;">
 			</div>
 			<button id="themeToggle" class="btn btn-outline-secondary" title="切換主題">
 				<i id="themeIcon" class="fas fa-moon"></i>
@@ -54,218 +53,100 @@
 			</div>
 		</div>
 
-		<!-- Tabs for 3/12 ~ 3/15 -->
-		<ul class="nav nav-tabs w-100" id="tripTabs" role="tablist" style="display:flex;">
-			<li class="nav-item" role="presentation" style="flex:1;">
-				<button class="nav-link active w-100 text-center" id="d12-tab" data-bs-toggle="tab" data-bs-target="#d12" type="button" role="tab" aria-controls="d12" aria-selected="true">3/12(四)</button>
-			</li>
-			<li class="nav-item" role="presentation" style="flex:1;">
-				<button class="nav-link w-100 text-center" id="d13-tab" data-bs-toggle="tab" data-bs-target="#d13" type="button" role="tab" aria-controls="d13" aria-selected="false">3/13(五)</button>
-			</li>
-			<li class="nav-item" role="presentation" style="flex:1;">
-				<button class="nav-link w-100 text-center" id="d14-tab" data-bs-toggle="tab" data-bs-target="#d14" type="button" role="tab" aria-controls="d14" aria-selected="false">3/14(六)</button>
-			</li>
-			<li class="nav-item" role="presentation" style="flex:1;">
-				<button class="nav-link w-100 text-center" id="d15-tab" data-bs-toggle="tab" data-bs-target="#d15" type="button" role="tab" aria-controls="d15" aria-selected="false">3/15(日)</button>
-			</li>
-			<li class="nav-item" role="presentation" style="flex:1;">
-				<button class="nav-link w-100 text-center" id="expense-tab" data-bs-toggle="tab" data-bs-target="#expense" type="button" role="tab" aria-controls="expense" aria-selected="false">花費</button>
-			</li>
-		</ul>
-		<div class="tab-content p-3 border border-top-0" id="tripTabsContent">
-			<div class="tab-pane fade show active" id="d12" role="tabpanel" aria-labelledby="d12-tab">
-
-				<div class="timeline mt-3">
-					<div class="timeline-left">
-						<div class="timeline-line"></div>
-					</div>
-					<div class="timeline-right">
-						<div class="timeline-item mb-4 position-relative">
-							<div class="timeline-dot"></div>
-							<div class="timeline-time">10:00</div>
-							<div class="flex-fill">
-								<div class="card">
-									<div class="card-body">
-										<h6 class="card-title mb-1">填寫 visit japan</h6>
-										<p class="card-text mb-0"><a href="https://www.vjw.digital.go.jp/" target="_blank" rel="noopener">https://www.vjw.digital.go.jp/</a></p>
-									</div>
-								</div>
-
-							</div>
-						</div>
-						<div class="timeline-item mb-4 position-relative">
-							<div class="timeline-dot"></div>
-							<div class="timeline-time">12:10 ~ 16:15</div>
-							<div class="flex-fill">
-								<div class="card">
-									<div class="card-body">
-										<h6 class="card-title mb-1">泰國獅子航空 SL394</h6>
-										<p class="card-text mb-0">桃園國際機場 T1 - 成田機場T1N</p>
-									</div>
-								</div>
-
-							</div>
-						</div>					<div class="timeline-item mb-4 position-relative">
-						<div class="timeline-dot"></div>
-						<div class="timeline-time">18:00</div>
-						<div class="flex-fill">
-							<div class="card">
-								<div class="card-body">
-									<h6 class="card-title mb-1">HOTEL MYSTAYS 濱松町酒店</h6>
-									<p class="card-text mb-0">1-18-14 Hamamatsu-cho, Minato-ku, 新橋, 東京, 日本, 105-0013</p>
-								</div>
-							</div>
-
-						</div>
-					</div>
-					<div class="timeline-item mb-4 position-relative">
-						<div class="timeline-dot"></div>
-						<div class="timeline-time">20:00</div>
-						<div class="flex-fill">
-							<div class="card">
-								<div class="card-body">
-									<h6 class="card-title mb-1">東京鐵塔、增上寺、麻布台之丘</h6>
-								</div>
-							</div>
-
-						</div>
-					</div>						<!-- 更多事件可在此加入 -->
-					</div>
+		<!-- Dynamic tabs for trip days; tabs managed from Firestore -->
+		<div class="d-flex align-items-center justify-content-between">
+			<div class="trip-days-wrapper me-2 position-relative">
+				<button class="trip-scroll-btn trip-scroll-prev" aria-label="向左捲動" title="向左捲動"><i class="fas fa-chevron-left"></i></button>
+				<div class="trip-days-scroll">
+					<ul class="nav nav-tabs" id="tripDaysTabs" role="tablist"></ul>
 				</div>
+				<button class="trip-scroll-btn trip-scroll-next" aria-label="向右捲動" title="向右捲動"><i class="fas fa-chevron-right"></i></button>
+				</div>
+			<div class="ms-2 d-flex align-items-center flex-shrink-0">
+				<button class="btn btn-sm btn-outline-primary btn-icon me-2" aria-label="新增日期" onclick="tripApp.openAddDayModal()"><i class="fas fa-plus"></i></button>
+				<button id="toggleExpenseBtn" class="btn btn-sm btn-outline-secondary btn-icon" aria-label="切換花費" title="切換花費">
+					<i id="toggleExpenseIcon" class="fas fa-dollar-sign" style="color:#d4af37;"></i>
+				</button>
 			</div>
-			<div class="tab-pane fade" id="d13" role="tabpanel" aria-labelledby="d13-tab">
-			<div class="timeline mt-3">
-				<div class="timeline-left">
-					<div class="timeline-line"></div>
-				</div>
-				<div class="timeline-right">
-					<div class="timeline-item mb-4 position-relative">
-						<div class="timeline-dot"></div>
-						<div class="timeline-time">10:00</div>
-						<div class="flex-fill">
-							<div class="card">
-								<div class="card-body">
-									<h6 class="card-title mb-1">淺草寺 + 雷門</h6>
-								</div>
-							</div>
-
-						</div>
-					</div>
-					<div class="timeline-item mb-4 position-relative">
-						<div class="timeline-dot"></div>
-						<div class="timeline-time">15:00</div>
-						<div class="flex-fill">
-							<div class="card">
-								<div class="card-body">
-									<h6 class="card-title mb-1">明治神宮</h6>
-								</div>
-							</div>
-
-						</div>
-					</div>
-					<div class="timeline-item mb-4 position-relative">
-						<div class="timeline-dot"></div>
-						<div class="timeline-time">18:00</div>
-						<div class="flex-fill">
-							<div class="card">
-								<div class="card-body">
-									<h6 class="card-title mb-1">澀谷 + Shibuya Sky</h6>
-								</div>
-							</div>
-
-						</div>
-					</div>
-				</div>
-			</div>
-			</div>
-			<div class="tab-pane fade" id="d14" role="tabpanel" aria-labelledby="d14-tab">
-				<div class="timeline mt-3">
-					<div class="timeline-left">
-						<div class="timeline-line"></div>
-					</div>
-					<div class="timeline-right">
-						<div class="timeline-item mb-4 position-relative">
-							<div class="timeline-dot"></div>
-							<div class="timeline-time">07:20 ~ 18:00</div>
-							<div class="flex-fill">
-								<div class="card">
-									<div class="card-body">
-										<h6 class="card-title mb-2">富士山一日遊</h6>
-										<p class="card-text small mb-1">07:20 東京丸之內北口</p>
-										<p class="card-text small mb-1">10:30 箱根神社</p>
-										<p class="card-text small mb-1">12:10 箱根大湧谷縛車</p>
-										<p class="card-text small mb-1">12:40 大湧谷</p>
-										<p class="card-text small mb-1">14:10 羅森便利店</p>
-										<p class="card-text small mb-1">14:40 日川時計店</p>
-										<p class="card-text small mb-1">15:00 新倒山公園</p>
-										<p class="card-text small mb-1">16:00 回程</p>
-										<p class="card-text small mb-0">18:00 東京丸之內北口</p>
-									</div>
-								</div>
-
-							</div>
-						</div>
-						<div class="timeline-item mb-4 position-relative">
-							<div class="timeline-dot"></div>
-							<div class="timeline-time">18:30</div>
-							<div class="flex-fill">
-								<div class="card">
-									<div class="card-body">
-										<h6 class="card-title mb-1">東京車站</h6>
-									</div>
-								</div>
-							</div>
-						</div>
-					</div>
-				</div>
 		</div>
-		<div class="tab-pane fade" id="d15" role="tabpanel" aria-labelledby="d15-tab">
-			<div class="timeline mt-3">
-				<div class="timeline-left">
-					<div class="timeline-line"></div>
+		<div class="tab-content p-3 border border-top-0" id="tripTabsContent">
+			<!-- Dynamic panes will be rendered here by trip.js -->
+		</div>
+
+		<!-- Expenses panel (hidden by default) -->
+		<div id="expensesContent" class="p-3 border border-top-0" style="display:none;">
+			<div class="d-flex align-items-start justify-content-between mb-2">
+				<h5 class="mb-0">花費紀錄</h5>
+				<div>
+					<button class="btn btn-sm btn-primary btn-icon" aria-label="新增花費" title="新增花費" onclick="tripApp.openExpenseModal()"><i class="fas fa-plus"></i></button>
 				</div>
-				<div class="timeline-right">
-					<div class="timeline-item mb-4 position-relative">
-						<div class="timeline-dot"></div>
-						<div class="timeline-time">11:00</div>
-						<div class="flex-fill">
-							<div class="card">
-								<div class="card-body">
-									<h6 class="card-title mb-1">退房</h6>
-								</div>
-							</div>
-
-						</div>
+			</div>
+			<div class="card">
+				<div class="card-body">
+					<div id="expensesSummary" class="mb-3">
+						<!-- per-person summary injected here -->
 					</div>
-					<div class="timeline-item mb-4 position-relative">
-						<div class="timeline-dot"></div>
-						<div class="timeline-time">12:00</div>
-						<div class="flex-fill">
-							<div class="card">
-								<div class="card-body">
-									<h6 class="card-title mb-1">未定</h6>
-								</div>
-							</div>
-
-						</div>
-					</div>
-					<div class="timeline-item mb-4 position-relative">
-						<div class="timeline-dot"></div>
-						<div class="timeline-time">17:15 ~ 20:20</div>
-						<div class="flex-fill">
-							<div class="card">
-								<div class="card-body">
-									<h6 class="card-title mb-1">泰國獅子航空 SL395</h6>
-									<p class="card-text mb-0">成田機場T1N - 桃園國際機場T1</p>
-								</div>
-							</div>
-
-						</div>
+					<div id="expensesList" style="max-height:320px; overflow:auto;">
+						<!-- expense items injected here -->
 					</div>
 				</div>
 			</div>
-			</div>
-			<div class="tab-pane fade" id="expense" role="tabpanel" aria-labelledby="expense-tab">
+		</div>
+
+		<!-- Expense Modal -->
+		<div class="modal fade" id="expenseModal" tabindex="-1" aria-labelledby="expenseModalLabel" aria-hidden="true">
+			<div class="modal-dialog">
+				<div class="modal-content">
+					<form id="expenseForm">
+						<div class="modal-header">
+							<h5 class="modal-title" id="expenseModalLabel">新增花費</h5>
+							<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+						</div>
+						<div class="modal-body">
+							<input type="hidden" id="expenseId" />
+							<div class="mb-3">
+								<label class="form-label">日期時間</label>
+								<input id="expenseDateTime" name="datetime" type="datetime-local" class="form-control" required />
+							</div>
+							<div class="mb-3">
+								<label class="form-label">金額</label>
+								<div class="d-flex align-items-start gap-2">
+									<input id="expenseAmount" name="amount" type="number" step="0.01" class="form-control" required />
+									<div class="form-check" style="margin-top:6px;">
+										<input class="form-check-input" type="checkbox" id="expenseIsJPY">
+										<label class="form-check-label small" for="expenseIsJPY">日幣 (¥)</label>
+									</div>
+								</div>
+								</div>
+								<div class="mb-3">
+									<label class="form-label">內容</label>
+									<textarea id="expenseNote" name="note" class="form-control" rows="2" placeholder="例如：晚餐、計程車等" required></textarea>
+								</div>
+							<div class="mb-3">
+								<label class="form-label">出錢人</label>
+								<select id="expensePayer" name="payer" class="form-select">
+									<option>Wade</option>
+									<option>Donna</option>
+									<option>Ken</option>
+									<option>Sandy</option>
+								</select>
+							</div>
+							<div class="mb-3">
+								<label class="form-label">分攤人</label>
+								<div>
+									<div class="form-check form-check-inline"><input class="form-check-input expense-sharer" type="checkbox" id="sharerWade" value="Wade" checked><label class="form-check-label" for="sharerWade">Wade</label></div>
+									<div class="form-check form-check-inline"><input class="form-check-input expense-sharer" type="checkbox" id="sharerDonna" value="Donna" checked><label class="form-check-label" for="sharerDonna">Donna</label></div>
+									<div class="form-check form-check-inline"><input class="form-check-input expense-sharer" type="checkbox" id="sharerKen" value="Ken" checked><label class="form-check-label" for="sharerKen">Ken</label></div>
+									<div class="form-check form-check-inline"><input class="form-check-input expense-sharer" type="checkbox" id="sharerSandy" value="Sandy" checked><label class="form-check-label" for="sharerSandy">Sandy</label></div>
+								</div>
+							</div>
+						</div>
+						<div class="modal-footer">
+							<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">取消</button>
+							<button type="submit" class="btn btn-primary">儲存</button>
+						</div>
+					</form>
+				</div>
 			</div>
 		</div>
 
@@ -274,6 +155,41 @@
 	<!-- Scripts -->
 	<script src="https://code.jquery.com/jquery-3.3.1.min.js" crossorigin="anonymous"></script>
 	<script src="assets/js/bootstrap.bundle.min.js"></script>
+
+	<!-- Add Trip Item Modal -->
+	<div class="modal fade" id="tripItemModal" tabindex="-1" aria-labelledby="tripItemModalLabel" aria-hidden="true">
+		<div class="modal-dialog">
+			<div class="modal-content">
+				<form id="tripItemForm">
+					<div class="modal-header">
+						<h5 class="modal-title" id="tripItemModalLabel">新增行程項目</h5>
+						<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+					</div>
+					<div class="modal-body">
+						<input type="hidden" id="tripItemDate" name="date" />
+						<input type="hidden" id="tripItemId" name="id" />
+						<div class="mb-3">
+							<label class="form-label">時間</label>
+							<input id="tripItemTime" name="time" type="time" class="form-control" />
+						</div>
+						<div class="mb-3">
+							<label class="form-label">標題</label>
+							<input id="tripItemTitle" name="title" type="text" class="form-control" required />
+						</div>
+						<div class="mb-3">
+							<label class="form-label">描述</label>
+							<textarea id="tripItemDesc" name="description" class="form-control" rows="3"></textarea>
+						</div>
+					</div>
+					<div class="modal-footer">
+						<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">取消</button>
+						<button type="submit" class="btn btn-primary">新增</button>
+					</div>
+				</form>
+			</div>
+		</div>
+	</div>
+
 	<script>
 		// Theme toggle (same logic as index)
 		function _initThemeToggle() {
@@ -335,6 +251,157 @@
 			_initThemeToggle();
 			updateTimes();
 			setInterval(updateTimes, 1000);
+		});
+	</script>
+
+	<!-- Trip app module -->
+	<!-- Provide a minimal stub so inline onclick won't throw before module loads -->
+	<script>
+		window.tripApp = window.tripApp || {};
+		(function(app) {
+			app.openAddDayModal = app.openAddDayModal || function() {
+				const modalEl = document.getElementById('tripDayModal');
+				if (modalEl) new bootstrap.Modal(modalEl).show();
+			};
+			app.openAddModal = app.openAddModal || function(date) {
+				const modalEl = document.getElementById('tripItemModal');
+				if (modalEl) {
+					document.getElementById('tripItemDate').value = date || '';
+					document.getElementById('tripItemId').value = '';
+					new bootstrap.Modal(modalEl).show();
+				}
+			};
+			app.openEditModal = app.openEditModal || function(id, dayKey) {
+				const modalEl = document.getElementById('tripItemModal');
+				if (modalEl) {
+					document.getElementById('tripItemId').value = id || '';
+					document.getElementById('tripItemDate').value = dayKey || '';
+					new bootstrap.Modal(modalEl).show();
+				}
+			};
+			app.deleteItem = app.deleteItem || function() { return; };
+			app.deleteDay = app.deleteDay || function() { return; };
+		})(window.tripApp);
+	</script>
+	<script type="module" src="assets/js/trip.js"></script>
+
+	<script>
+		// Scroll controls for trip days tabs
+		document.addEventListener('DOMContentLoaded', function() {
+			const sc = document.querySelector('.trip-days-scroll');
+			const prevBtn = document.querySelector('.trip-scroll-prev');
+			const nextBtn = document.querySelector('.trip-scroll-next');
+			const tabs = document.getElementById('tripDaysTabs');
+			if (!sc || !prevBtn || !nextBtn || !tabs) return;
+
+			function updateButtons() {
+				// show/hide based on overflow
+				const need = sc.scrollWidth > sc.clientWidth + 1;
+				if (!need) {
+					prevBtn.style.display = 'none';
+					nextBtn.style.display = 'none';
+					return;
+				}
+				prevBtn.style.display = sc.scrollLeft > 0 ? 'inline-flex' : 'none';
+				nextBtn.style.display = (sc.scrollLeft + sc.clientWidth) < sc.scrollWidth - 1 ? 'inline-flex' : 'none';
+			}
+
+			prevBtn.addEventListener('click', function() {
+				sc.scrollBy({ left: -200, behavior: 'smooth' });
+			});
+			nextBtn.addEventListener('click', function() {
+				sc.scrollBy({ left: 200, behavior: 'smooth' });
+			});
+
+			sc.addEventListener('scroll', updateButtons);
+			window.addEventListener('resize', updateButtons);
+
+			// If tabs are dynamically changed, observe and update
+			const mo = new MutationObserver(function() {
+				setTimeout(updateButtons, 50);
+			});
+			mo.observe(tabs, { childList: true, subtree: true });
+
+			// initial update
+			setTimeout(updateButtons, 100);
+		});
+	</script>
+
+	<!-- Add Day Modal -->
+	<div class="modal fade" id="tripDayModal" tabindex="-1" aria-labelledby="tripDayModalLabel" aria-hidden="true">
+		<div class="modal-dialog">
+			<div class="modal-content">
+				<form id="tripDayForm">
+					<div class="modal-header">
+						<h5 class="modal-title" id="tripDayModalLabel">新增日期</h5>
+						<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+					</div>
+					<div class="modal-body">
+						<div class="mb-3">
+							<label class="form-label">顯示標籤</label>
+							<input id="tripDayLabel" name="label" type="text" class="form-control" placeholder="例如：3/16(一)" required />
+						</div>
+
+					</div>
+					<div class="modal-footer">
+						<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">取消</button>
+						<button type="submit" class="btn btn-primary">新增</button>
+					</div>
+				</form>
+			</div>
+		</div>
+	</div>
+
+	<script>
+		// Toggle between trip tabs and expenses view; swap icon between $ and calendar
+		document.addEventListener('DOMContentLoaded', function() {
+			const btn = document.getElementById('toggleExpenseBtn');
+			const icon = document.getElementById('toggleExpenseIcon');
+			const tripPane = document.getElementById('tripTabsContent');
+			const expPane = document.getElementById('expensesContent');
+			if (!btn || !icon || !tripPane || !expPane) return;
+			btn.addEventListener('click', function() {
+				const showingExpenses = expPane.style.display !== 'none';
+				if (showingExpenses) {
+					expPane.style.display = 'none';
+					tripPane.style.display = '';
+					icon.className = 'fas fa-dollar-sign';
+					btn.setAttribute('title', '切換花費');
+				} else {
+					expPane.style.display = '';
+					tripPane.style.display = 'none';
+					icon.className = 'fas fa-calendar-alt';
+					btn.setAttribute('title', '切換日曆');
+				}
+			});
+		});
+	</script>
+
+	<!-- Map Modal: show Tokyo subway map centered -->
+	<div class="modal fade" id="mapModal" tabindex="-1" aria-hidden="true">
+		<div class="modal-dialog modal-dialog-centered modal-lg">
+			<div class="modal-content bg-transparent border-0">
+				<div class="modal-body p-0 text-center">
+					<button type="button" class="btn-close position-absolute top-0 end-0 m-2" data-bs-dismiss="modal" aria-label="Close"></button>
+					<img id="mapModalImg" src="" alt="東京地鐵" class="img-fluid rounded" style="max-height:80vh; display:inline-block;">
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<script>
+		// Bind click on top-left logo to open centered modal showing the image
+		document.addEventListener('DOMContentLoaded', function() {
+			const logo = document.getElementById('logoImg');
+			const mapModalEl = document.getElementById('mapModal');
+			const mapModalImg = document.getElementById('mapModalImg');
+			if (!logo || !mapModalEl || !mapModalImg) return;
+			if (logo.__mapHandlerBound) return;
+			logo.__mapHandlerBound = true;
+			logo.addEventListener('click', function() {
+				mapModalImg.src = logo.src;
+				new bootstrap.Modal(mapModalEl).show();
+			});
 		});
 	</script>
 </body>
