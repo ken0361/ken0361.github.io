@@ -189,6 +189,100 @@
     border-bottom-color: #fff;
 }
 
+/* Scrollable trip days tabs: keep tabs horizontally scrollable without pushing action buttons */
+.trip-days-wrapper {
+    flex: 1 1 auto;
+    min-width: 0; /* allow shrinking so sibling buttons remain visible */
+}
+.trip-days-scroll {
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+}
+.trip-days-scroll::-webkit-scrollbar {
+    height: 8px;
+}
+.trip-days-scroll::-webkit-scrollbar-thumb {
+    background: rgba(0,0,0,0.12);
+    border-radius: 6px;
+}
+.trip-days-scroll .nav {
+    display: inline-flex; /* allow scrollable horizontal layout */
+    white-space: nowrap;
+    min-width: max-content; /* ensure tabs don't wrap */
+}
+.trip-days-scroll .nav .nav-item {
+    display: inline-flex;
+}
+.trip-days-scroll .nav-link {
+    white-space: nowrap;
+}
+
+[data-bs-theme="dark"] .trip-days-scroll::-webkit-scrollbar-thumb {
+    background: rgba(255,255,255,0.08);
+}
+
+/* Scroll arrow buttons for trip days */
+.trip-days-wrapper {
+    position: relative; /* ensure arrows can be positioned over the scroll area */
+}
+.trip-scroll-btn {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 34px;
+    height: 34px;
+    border-radius: 50%;
+    border: 1px solid rgba(0,0,0,0.08);
+    background: rgba(255,255,255,0.9);
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0;
+    z-index: 10;
+    cursor: pointer;
+    box-shadow: 0 2px 6px rgba(0,0,0,0.08);
+}
+.trip-scroll-prev { left: 4px; }
+.trip-scroll-next { right: 4px; }
+.trip-scroll-btn i { font-size: 0.85rem; color: #495057; }
+.trip-scroll-btn:hover { transform: translateY(-50%) scale(1.03); }
+
+[data-bs-theme="dark"] .trip-scroll-btn {
+    background: rgba(45,49,57,0.9);
+    border-color: rgba(255,255,255,0.06);
+}
+[data-bs-theme="dark"] .trip-scroll-btn i {
+    color: #e6e6e6;
+}
+
+/* Hide arrows by default; JS will toggle visibility when needed */
+.trip-scroll-btn { display: none; }
+
+@media (max-width: 420px) {
+    .trip-scroll-btn { width: 30px; height: 30px; }
+    .trip-scroll-prev { left: 2px; }
+    .trip-scroll-next { right: 2px; }
+}
+
+/* Tab close icon placed inside tab on the right */
+.tab-with-close {
+    padding-right: 2.25rem; /* make room for close icon */
+}
+.tab-close {
+    position: absolute;
+    right: 8px;
+    top: 50%;
+    transform: translateY(-50%);
+    font-size: 0.85rem;
+    color: #dc3545;
+    cursor: pointer;
+    padding: 2px 6px;
+    border-radius: 6px;
+}
+.tab-close:hover {
+    background: rgba(220,53,69,0.08);
+}
+
 /* Removed custom .tab-content hide/show rules to preserve Bootstrap tab behavior */
 
 /* Action buttons on index page */
@@ -358,5 +452,123 @@
     border-color: #80bdff;
 }
 [data-bs-theme="dark"] .timeline-arrow {
+    color: #adb5bd;
+}
+
+/* Icon buttons used in trip UI */
+.btn-icon {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 36px;
+    height: 36px;
+    padding: 0;
+    border-radius: 50%;
+}
+
+/* Ensure cards can contain an absolutely positioned delete button */
+.timeline-item .card {
+    position: relative;
+}
+
+.card-delete-btn {
+    position: absolute;
+    top: 8px;
+    right: 8px;
+    width: 34px;
+    height: 34px;
+    padding: 0;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+}
+
+[data-bs-theme="dark"] .card-delete-btn {
+    color: #ffc9c9;
+    border-color: #ff6b6b;
+}
+
+/* Edit button placed left of delete */
+.card-edit-btn {
+    position: absolute;
+    top: 8px;
+    right: 48px;
+    width: 34px;
+    height: 34px;
+    padding: 0;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+}
+
+[data-bs-theme="dark"] .card-edit-btn {
+    color: #cbd5e1;
+    border-color: #6c757d;
+}
+
+/* Prevent top-right icon buttons from overlapping card content by adding right padding */
+.timeline-item .card .card-body {
+    padding-right: 100px; /* space for edit + delete buttons */
+}
+
+@media (max-width: 576px) {
+    /* On very small screens keep enough space but slightly reduced */
+    .timeline-item .card .card-body {
+        padding-right: 88px;
+    }
+    /* Move the buttons slightly inward on mobile to avoid edge clipping */
+    .card-edit-btn { right: 56px; }
+    .card-delete-btn { right: 12px; }
+}
+
+/* Modal dark-mode support */
+[data-bs-theme="dark"] .modal-content {
+    background-color: #2d3139;
+    border-color: #495057;
+    color: #fff;
+}
+
+[data-bs-theme="dark"] .modal-header,
+[data-bs-theme="dark"] .modal-footer {
+    border-color: #495057;
+}
+
+[data-bs-theme="dark"] .modal-title {
+    color: #fff;
+}
+
+[data-bs-theme="dark"] .btn-close {
+    filter: invert(1) hue-rotate(180deg) saturate(0.6);
+}
+
+[data-bs-theme="dark"] .form-select {
+    background-color: #3a3f47;
+    color: #fff;
+    border-color: #495057;
+}
+
+[data-bs-theme="dark"] .form-check-label,
+[data-bs-theme="dark"] label {
+    color: #fff;
+}
+
+[data-bs-theme="dark"] .modal-backdrop.show {
+    background-color: rgba(0,0,0,0.6);
+}
+
+[data-bs-theme="dark"] .btn-primary {
+    background-color: #0d6efd;
+    border-color: #0d6efd;
+}
+
+[data-bs-theme="dark"] .btn-secondary {
+    background-color: #495057;
+    border-color: #495057;
+    color: #fff;
+}
+
+[data-bs-theme="dark"] .form-control::-webkit-input-placeholder {
     color: #adb5bd;
 }
