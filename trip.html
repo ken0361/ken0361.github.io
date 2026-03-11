@@ -20,6 +20,18 @@
 		html[data-delete-lock="locked"] .fa-trash {
 			display: none !important;
 		}
+
+		/* Ensure expense items wrap and don't cause horizontal scrolling */
+		#expensesList {
+			word-wrap: break-word;
+			overflow-wrap: anywhere;
+		}
+
+		#expensesList, #expensesList * {
+			max-width: 100%;
+			white-space: normal !important;
+			word-break: break-word;
+		}
 	</style>
 </head>
 
