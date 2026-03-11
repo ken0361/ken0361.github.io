@@ -529,7 +529,8 @@ try {
         rightHtml += '<div class="small text-muted">所有人已平衡</div>';
       }
 
-      const wrapper = `<div class="d-flex justify-content-between align-items-start">${leftHtml}<div class="ms-3">${rightHtml}</div></div>`;
+      // Render per-person summary on its own row, and settlement suggestions on a separate row
+      const wrapper = `${leftHtml}<div class="mt-2">${rightHtml}</div>`;
       summaryEl.innerHTML = wrapper;
     }
   });
