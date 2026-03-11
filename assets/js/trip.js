@@ -531,7 +531,8 @@ try {
 
       // Render per-person summary on its own row, and settlement suggestions on a separate row
       const wrapper = `${leftHtml}<div class="mt-2">${rightHtml}</div>`;
-      summaryEl.innerHTML = wrapper;
+      // add a horizontal divider after the summary to separate from the list below
+      summaryEl.innerHTML = wrapper + '<hr class="my-3" />';
     }
   });
 } catch (err) {
